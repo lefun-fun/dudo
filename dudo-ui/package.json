@@ -1,5 +1,5 @@
 {
-  "name": "dudo-ui",
+  "name": "@lefun/dudo-ui",
   "version": "1.0.0",
   "description": "",
   "type": "module",
@@ -61,10 +61,10 @@
     "ws": "^8.3.0"
   },
   "dependencies": {
+    "@lefun/dudo-game": "workspace:*",
     "@react-spring/web": "^9.7.3",
     "@tippyjs/react": "^4.2.6",
     "classnames": "^2.3.1",
-    "dudo-game": "workspace:^",
     "tippy.js": "^6.3.1"
   },
   "peerDependencies": {

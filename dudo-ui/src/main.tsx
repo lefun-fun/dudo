@@ -1,7 +1,7 @@
 import "@lefun/dev-server/index.css";
 
 import { render } from "@lefun/dev-server";
-import { DudoBoard, DudoPlayerboard, game } from "dudo-game";
+import { DudoBoard, DudoPlayerboard, game } from "@lefun/dudo-game";
 
 render<DudoBoard, DudoPlayerboard>({
   board: async () => {

@@ -1,0 +1,12 @@
+{
+  "name": "dudo",
+  "private": true,
+  "pnpm": {
+    "overrides": {
+      "@types/react": "17.0.2",
+      "@types/react-dom": "17.0.2",
+      "vite": "5.2.12"
+    }
+  },
+  "packageManager": "pnpm@8.15.1"
+}

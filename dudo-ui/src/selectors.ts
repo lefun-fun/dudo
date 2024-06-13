@@ -1,5 +1,5 @@
+import { DudoBoard, DudoPlayerboard } from "@lefun/dudo-game";
 import { MatchState } from "@lefun/ui";
-import { DudoBoard, DudoPlayerboard } from "dudo-game";
 
 type State = MatchState<DudoBoard, DudoPlayerboard>;
 

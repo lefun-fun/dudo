@@ -1,9 +1,16 @@
 import { expect, test } from "vitest";
 
 import type { UserId } from "@lefun/core";
+import {
+  bet,
+  call,
+  DudoBoard,
+  DudoPlayerboard,
+  game,
+  roll,
+} from "@lefun/dudo-game";
 import { MatchTester as MatchTesterOrig } from "@lefun/game";
 import { render } from "@lefun/ui-testing";
-import { bet, call, DudoBoard, DudoPlayerboard, game, roll } from "dudo-game";
 
 import Board, { getDefaultBet, getLowestQty, getLowestValue } from "./Board";
 
