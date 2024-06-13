@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  font-size: 16px;
+  /* border: 1px solid rgba(red, 0.5); */
+  font-family: "Hammersmith One", sans-serif;
+  font-weight: 500;
+  @apply tracking-wide;
+}
+
+.die {
+  width: var(--die-size);
+  height: var(--die-size);
+}
+
+.dice-row {
+  --die-size: min(calc(50vw / var(--num-dice)), 3rem);
+  gap: calc(var(--die-size) * 0.1);
+}
+
+.bet {
+  width: min(5rem, 40%);
+}
+
+button {
+  cursor: pointer;
+}
+
+@layer components {
+  button {
+    @apply rounded-lg p-2 bg-gray-200 border-2 border-gray-500 shadow select-none;
+
+    @media (hover: hover) {
+      &:enabled {
+        @apply hover:bg-gray-600 hover:border-gray-900 hover:text-white hover:shadow-md;
+      }
+    }
+    @apply focus:outline-none;
+    &:disabled {
+      opacity: 0.5;
+    }
+  }
+
+  .panel {
+    @apply rounded-lg bg-white shadow-md border-2 border-gray-300 p-2;
+  }
+}
+
+.buttonCol {
+  @apply h-full flex flex-col justify-between;
+}
+
+.upDownButton {
+  @apply w-12 py-1.5 text-sm;
+}
+
+/* rendu a flusher ca */
+.actionButton {
+  @apply text-2xl w-24;
+}
+
+.manipulation {
+  touch-action: manipulation;
+}

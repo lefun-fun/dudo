@@ -1,0 +1,77 @@
+{
+  "name": "dudo-ui",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": "dist/index.js",
+    "./index.css": "dist/index.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "vite:dev": "vite --host",
+    "build": "pnpm run clean && pnpm run compile",
+    "clean": "rm -rf ./dist",
+    "compile": "rollup --config",
+    "watch": "rollup --config --watch",
+    "test": "pnpm exec vitest run src",
+    "format": "pnpm exec prettier --write . && pnpm exec eslint . --fix",
+    "check-format": "pnpm exec prettier --check . && pnpm exec eslint . --quiet"
+  },
+  "author": "Simon Lemieux",
+  "license": "ISC",
+  "devDependencies": {
+    "@lefun/core": "*",
+    "@lefun/dev-server": "*",
+    "@lefun/game": "*",
+    "@lefun/ui": "*",
+    "@lefun/ui-testing": "*",
+    "@rollup/plugin-commonjs": "^21.0.1",
+    "@rollup/plugin-node-resolve": "^13.0.6",
+    "@rollup/plugin-typescript": "^11.1.5",
+    "@testing-library/react": "^12.1.2",
+    "@types/react": "17.0.2",
+    "@types/react-dom": "17.0.2",
+    "@typescript-eslint/eslint-plugin": "^7.11.0",
+    "@typescript-eslint/parser": "^7.11.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-simple-import-sort": "^12.1.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jsdom": "^24.0.0",
+    "postcss": "^8.4.1",
+    "postcss-nested": "^5.0.6",
+    "prettier": "^3.2.4",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "rollup": "^2.60.1",
+    "rollup-plugin-postcss": "^4.0.0",
+    "tailwindcss": "^2.2.19",
+    "tslib": "^2.3.1",
+    "typescript": "^5.4.5",
+    "vite": "^5.2.0",
+    "vitest": "^1.2.1",
+    "ws": "^8.3.0"
+  },
+  "dependencies": {
+    "@react-spring/web": "^9.7.3",
+    "@tippyjs/react": "^4.2.6",
+    "classnames": "^2.3.1",
+    "dudo-game": "workspace:^",
+    "tippy.js": "^6.3.1"
+  },
+  "peerDependencies": {
+    "@lefun/core": "*",
+    "@lefun/game": "*",
+    "@lefun/ui": "*",
+    "react": "17.0.2",
+    "react-dom": "17.0.2"
+  }
+}

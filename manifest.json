@@ -1,0 +1,18 @@
+{
+  "id": "dudo",
+  "packages": {
+    "game": "dudo-game",
+    "ui": "dudo-ui"
+  },
+  "version": "1",
+  "name": "Dudo",
+  "meta": {
+    "relatedGames": {
+      "how": "aka",
+      "games": ["Perudo", "Liar's Dice", "Bluff"],
+      "link": "https://boardgamegeek.com/boardgame/45/perudo"
+    },
+    "tagline": "The classic bluffing dice game",
+    "description": "Each player must raise the stakes. If you don't have the hand... well let's hope they believe your bluff!"
+  }
+}
