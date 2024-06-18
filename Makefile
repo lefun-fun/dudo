@@ -8,4 +8,8 @@ test:
 
 .PHONY: format
 format:
-	pnpm run -r format
+	pnpm prettier ui game --write
+
+.PHONY: watch
+watch:
+	pnpm run -r watch

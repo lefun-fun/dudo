@@ -59,14 +59,12 @@ export interface DudoPlayerboard {
 const gameSettings: GameSettings = [
   {
     key: "startNumDice",
-    label: "Number of dice",
     options: [
-      { value: "3", label: "3", shortLabel: "Num dice: 3" },
-      { value: "4", label: "4", shortLabel: "Num dice: 4" },
-      { value: "5", label: "5", default: true },
-      { value: "6", label: "6", shortLabel: "Num dice: 6" },
+      { value: "3" },
+      { value: "4" },
+      { value: "5", default: true },
+      { value: "6" },
     ],
-    help: "Number of dice each player starts with.",
   },
 ];
 

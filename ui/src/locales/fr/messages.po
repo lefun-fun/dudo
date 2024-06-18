@@ -1,0 +1,89 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2024-06-18 19:55+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: fr\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+#. js-lingui-explicit-id
+#: lefun
+msgid "lefun.name"
+msgstr "Dudo"
+
+#. js-lingui-explicit-id
+#: lefun
+msgid "lefun.tagline"
+msgstr "Le classique jeu de dés et de bluff"
+
+#. js-lingui-explicit-id
+#: lefun
+msgid "lefun.aka"
+msgstr "Perudo"
+
+#. js-lingui-explicit-id
+#: lefun
+msgid "lefun.seoAka"
+msgstr ""
+
+#. js-lingui-explicit-id
+#: lefun
+msgid "lefun.description"
+msgstr "Chaque joueur doit relever la mise. Vous n'avez pas une bonne main? Faites semblant!"
+
+#. js-lingui-explicit-id
+#: lefun
+msgid "lefun.settings.startNumDice.label"
+msgstr "Nombre de dés"
+
+#. js-lingui-explicit-id
+#: lefun
+msgid "lefun.settings.startNumDice.help"
+msgstr "Nombre de dés de départ pour chaque joueur"
+
+#. js-lingui-explicit-id
+#: lefun
+msgid "lefun.settings.startNumDice.options.3.label"
+msgstr "3"
+
+#. js-lingui-explicit-id
+#: lefun
+msgid "lefun.settings.startNumDice.options.3.shortLabel"
+msgstr "Num dés: 3"
+
+#. js-lingui-explicit-id
+#: lefun
+msgid "lefun.settings.startNumDice.options.4.label"
+msgstr "4"
+
+#. js-lingui-explicit-id
+#: lefun
+msgid "lefun.settings.startNumDice.options.4.shortLabel"
+msgstr "Num dés: 4"
+
+#. js-lingui-explicit-id
+#: lefun
+msgid "lefun.settings.startNumDice.options.5.label"
+msgstr "5"
+
+#. js-lingui-explicit-id
+#: lefun
+msgid "lefun.settings.startNumDice.options.5.shortLabel"
+msgstr "Num dés: 5"
+
+#. js-lingui-explicit-id
+#: lefun
+msgid "lefun.settings.startNumDice.options.6.label"
+msgstr "6"
+
+#. js-lingui-explicit-id
+#: lefun
+msgid "lefun.settings.startNumDice.options.6.shortLabel"
+msgstr "Num dés: 6"

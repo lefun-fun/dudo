@@ -32,7 +32,6 @@
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-simple-import-sort": "^12.1.0",
-    "prettier": "^3.2.4",
     "rollup": "^2.60.1",
     "rollup-plugin-typescript2": "^0.31.1",
     "tslib": "^2.3.1",

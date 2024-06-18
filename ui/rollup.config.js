@@ -1,6 +1,7 @@
 import commonjs from "@rollup/plugin-commonjs";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
 import typescript from "@rollup/plugin-typescript";
+import copy from "rollup-plugin-copy";
 import postcss from "rollup-plugin-postcss";
 
 export default {
@@ -15,6 +16,12 @@ export default {
     nodeResolve(),
     typescript({ tsconfig: "./tsconfig.json" }),
     postcss({ extract: true }),
+    // FIXME .po files are being bundled!
+    // and `rollup-plugin-copy` is being very annoying.
+    // A solution would be to have the po and js files separate...
+    copy({
+      targets: [{ src: ["src/locales/*"], dest: "dist/locales" }],
+    }),
   ],
   external: [
     /node_modules/,
