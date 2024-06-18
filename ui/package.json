@@ -61,8 +61,7 @@
     "tslib": "^2.3.1",
     "typescript": "^5.4.5",
     "vite": "^5.2.0",
-    "vitest": "^1.2.1",
-    "ws": "^8.3.0"
+    "vitest": "^1.2.1"
   },
   "dependencies": {
     "@lefun/dudo-game": "workspace:*",
