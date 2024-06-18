@@ -13,3 +13,7 @@ format:
 .PHONY: watch
 watch:
 	pnpm run -r watch
+
+.PHONY: dev
+dev:
+	cd ui && pnpm run vite:dev
