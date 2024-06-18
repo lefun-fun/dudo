@@ -19,8 +19,6 @@
     "compile": "pnpm rollup --config",
     "watch": "pnpm rollup --config --watch",
     "test": "pnpm vitest run src",
-    "format": "pnpm prettier --write . && pnpm eslint . --fix",
-    "check-format": "pnpm prettier --check . && pnpm eslint . --quiet",
     "lingui:compile": "pnpm lingui compile",
     "lingui:extract": "pnpm lingui extract"
   },
