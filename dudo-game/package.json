@@ -20,8 +20,8 @@
   "author": "Simon Lemieux",
   "license": "ISC",
   "dependencies": {
-    "@lefun/core": "*",
-    "@lefun/game": "*",
+    "@lefun/core": "1.1.0",
+    "@lefun/game": "1.1.0",
     "lodash-es": "^4.17.21"
   },
   "devDependencies": {
