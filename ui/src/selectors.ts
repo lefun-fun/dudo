@@ -18,3 +18,8 @@ export const iAmAliveSelector = (state: State) => {
   }
   return player.isAlive;
 };
+
+export const itsMyTurnSelector = (state: State) => {
+  const { playerOrder, currentPlayerIndex } = state.board;
+  return state.userId === playerOrder[currentPlayerIndex];
+};

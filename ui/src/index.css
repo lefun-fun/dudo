@@ -6,8 +6,16 @@ html {
   font-size: 16px;
   /* border: 1px solid rgba(red, 0.5); */
   font-family: "Hammersmith One", sans-serif;
-  font-weight: 500;
+  font-weight: 400;
   @apply tracking-wide;
+}
+
+:root {
+  --die-size: min(
+    /* how much horizontal space is there */ calc(50vw / var(--num-dice)),
+    /* how much vertical space is there */ calc(40vh / var(--num-players)),
+    3rem
+  );
 }
 
 .die {
@@ -16,20 +24,21 @@ html {
 }
 
 .dice-row {
-  --die-size: min(calc(50vw / var(--num-dice)), 3rem);
   gap: calc(var(--die-size) * 0.1);
+}
+
+.betDice {
+  width: min(calc(var(--die-size) * 0.8), 1.5rem);
+  height: min(calc(var(--die-size) * 0.8), 1.5rem);
 }
 
 .bet {
   width: min(5rem, 40%);
 }
 
-button {
-  cursor: pointer;
-}
-
 @layer components {
   button {
+    cursor: pointer;
     @apply rounded-lg p-2 bg-gray-200 border-2 border-gray-500 shadow select-none;
 
     @media (hover: hover) {
@@ -44,21 +53,8 @@ button {
   }
 
   .panel {
-    @apply rounded-lg bg-white shadow-md border-2 border-gray-300 p-2;
+    @apply bg-white p-2 rounded;
   }
-}
-
-.buttonCol {
-  @apply h-full flex flex-col justify-between;
-}
-
-.upDownButton {
-  @apply w-12 py-1.5 text-sm;
-}
-
-/* rendu a flusher ca */
-.actionButton {
-  @apply text-2xl w-24;
 }
 
 .manipulation {

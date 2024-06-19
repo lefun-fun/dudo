@@ -87,3 +87,79 @@ msgstr "6"
 #: lefun
 msgid "lefun.settings.startNumDice.options.6.shortLabel"
 msgstr "Num dés: 6"
+
+#: src/Board.tsx
+msgid "<0/> are <1>NOT</1> wild"
+msgstr "Les <0/> <1>ne</1> sont <1>pas</1> frimés."
+
+#: src/Board.tsx
+msgid "<0/> are wild"
+msgstr "Les <0/> sont frimés."
+
+#: src/Board.tsx
+msgid "<0>{username}</0> has been eliminated"
+msgstr "<0>{username}</0> a été éliminé"
+
+#: src/Board.tsx
+msgid "<0>{username}</0> has rolled"
+msgstr "<0>{username}</0> a lancé les dés"
+
+#: src/Board.tsx
+msgid "<0>{username}</0> is thinking..."
+msgstr "<0>{username}</0> réfléchit..."
+
+#: src/Board.tsx
+msgid "<0><1/></0> has won!"
+msgstr "<0><1/></0> a gagné!"
+
+#: src/Board.tsx
+msgid "<0><1/></0> is out"
+msgstr "<0><1/></0> est éliminé"
+
+#: src/Board.tsx
+msgid "<0><1/></0> is thinking..."
+msgstr "<0><1/></0> réfléchit..."
+
+#: src/Board.tsx
+msgid "<0><1/></0> lost one die!"
+msgstr "<0><1/></0> a perdu un dé"
+
+#: src/Board.tsx
+msgid "<0>You</0> are out!"
+msgstr "<0>Vous</0> êtes éliminé"
+
+#: src/Board.tsx
+msgid "<0>You</0> have won"
+msgstr "<0>Vous</0> avez gagné"
+
+#: src/Board.tsx
+msgid "<0>You</0> lost one die!"
+msgstr "<0>Vous</0> avez perdu un dé"
+
+#: src/Board.tsx
+msgid "Bet"
+msgstr "Miser"
+
+#: src/Board.tsx
+msgid "It's your turn!"
+msgstr "C'est votre tour!"
+
+#: src/Board.tsx
+msgid "No wilds. Only players with 1 die left can change the value of the dice."
+msgstr "Aucune frime. Seuls les joueurs avec 1 dé restant peuvent changer la valeur des dés."
+
+#: src/Board.tsx
+msgid "Roll"
+msgstr "Lancer les dés"
+
+#: src/Board.tsx
+msgid "Total"
+msgstr "Total"
+
+#: src/Board.tsx
+msgid "Waiting for <0>{username}</0> to roll"
+msgstr "<0>{username}</0> doit lancer les dés"
+
+#: src/Board.tsx
+msgid "Waiting for everyone to roll..."
+msgstr "Tous les joueurs doivent lancer les dé..."

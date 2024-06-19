@@ -110,6 +110,7 @@ interface DieProps {
   value: number;
   downlight?: boolean;
   highlight?: boolean;
+  component?: React.ElementType;
 }
 
 export const Die = ({
@@ -119,23 +120,27 @@ export const Die = ({
   value,
   downlight = false,
   highlight = false,
+  component = "div",
 }: DieProps) => {
   if (colorDot == null) {
     colorDot = "text-white";
   }
 
-  const className = classNames(
-    "w-full h-full select-none",
-    color == null ? "bg-black" : color,
-    downlight
-      ? "border-2 border-gray-800 bg-gray-300 opacity-40"
-      : border != null && "border-2 " + border,
-    { "shadow-lg ": highlight },
-  );
-  const opts = { className, style: { borderRadius: "14%" } };
+  const Component = component;
 
   return (
-    <div {...opts}>
+    <Component
+      className={classNames(
+        "block",
+        "w-full h-full select-none",
+        color == null ? "bg-black" : color,
+        downlight
+          ? "border-2 border-gray-800 bg-gray-300 opacity-40"
+          : border != null && "border-2 " + border,
+        { "shadow-lg ": highlight },
+      )}
+      style={{ borderRadius: "14%" }}
+    >
       {value === 1 ? (
         <Star downlight={downlight} colorDot={colorDot} />
       ) : (
@@ -148,6 +153,6 @@ export const Die = ({
           <g>{diceDots(value, downlight ? "text-gray-800" : colorDot)}</g>
         </svg>
       )}
-    </div>
+    </Component>
   );
 };

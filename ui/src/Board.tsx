@@ -1,5 +1,7 @@
 import "tippy.js/dist/tippy.css";
 
+import { msg, Trans } from "@lingui/macro";
+import { useLingui } from "@lingui/react";
 import {
   animated,
   config as springConfig,
@@ -29,7 +31,11 @@ import {
 } from "@lefun/ui";
 
 import { Die } from "./Die";
-import { iAmAliveSelector, iHaveRolledSelector } from "./selectors";
+import {
+  iAmAliveSelector,
+  iHaveRolledSelector,
+  itsMyTurnSelector,
+} from "./selectors";
 
 const useSetFont = () => {
   // Add the google font. This is a bit hacky but we have no other way to control the
@@ -99,9 +105,14 @@ const PLAYER_COLORS: PlayerColor[] = [
 ];
 
 const Palifico = () => {
+  const { _ } = useLingui();
   return (
-    <Tippy content="No wilds. Only players with 1 die left can change the value of the dice.">
-      <div className="h-full w-full bg-yellow-100 border-2 border-yellow-600 text-yellow-600 text-sm rounded-lg px-1.5 tracking-tight shadow text-center font-bold">
+    <Tippy
+      content={_(
+        msg`No wilds. Only players with 1 die left can change the value of the dice.`,
+      )}
+    >
+      <div className="h-full w-full bg-red-50 border-2 border-red-600 text-red-600 text-base rounded-lg px-1.5 shadow text-center ">
         ¡Palifico!
       </div>
     </Tippy>
@@ -119,14 +130,11 @@ const useSelectorShallow = <T,>(selector: Selector<T, B, PB>) =>
 
 const Player = ({ userId }: { userId: UserId }) => {
   const iHaveRolled = useSelector(iHaveRolledSelector);
-
   const itsMe = useSelector((state) => userId === state.userId);
-
   const isCurrentPlayer = useSelector((state) => {
     const { playerOrder, currentPlayerIndex } = state.board;
     return playerOrder[currentPlayerIndex] === userId;
   });
-
   const isPreviousPlayer = useSelector((state) => {
     const { playerOrder, previousPlayerIndex } = state.board;
     if (previousPlayerIndex === undefined) {
@@ -134,11 +142,9 @@ const Player = ({ userId }: { userId: UserId }) => {
     }
     return playerOrder[previousPlayerIndex] === userId;
   });
-
   const [betQty, betValue] = useSelector((state) => {
     return state.board.bet || [undefined, undefined];
   });
-
   const playerDiceValues = useSelectorShallow(
     (state) => state.board.players[userId].diceValues,
   );
@@ -146,19 +152,12 @@ const Player = ({ userId }: { userId: UserId }) => {
     (state) => state.board.players[userId].hasRolled,
   );
   const isAlive = useSelector((state) => state.board.players[userId].isAlive);
-
   const colorIdx = useSelector((state) => state.board.players[userId].color);
-
-  const color = PLAYER_COLORS[colorIdx];
-
   const imRolling = useSelector((state) => {
     return itsMe && state.playerboard?.isRolling;
   });
-
   const startNumDice = useSelector((state) => state.board.startNumDice);
-
   const isLoser = useSelector((state) => state.board.loser === userId);
-
   const diceValues = useSelectorShallow((state) => {
     // If we have rolled, then we don't want to see the dice of the other players anymore.
     if (playerDiceValues != null && !iHaveRolled) {
@@ -168,11 +167,11 @@ const Player = ({ userId }: { userId: UserId }) => {
       return state.playerboard!.diceValues;
     }
   });
-
   const numDice = diceValues == null ? null : diceValues.length;
-
   const step = useSelector((state) => state.board.step);
   const palifico = useSelector((state) => state.board.palifico);
+
+  const color = PLAYER_COLORS[colorIdx];
 
   const username = useUsername(userId);
 
@@ -182,7 +181,7 @@ const Player = ({ userId }: { userId: UserId }) => {
       betEl = (
         <div className="m-auto flex">
           <div className="m-auto text-black text-xl">{betQty}</div>
-          <div className="w-6 h-6 md:w-8 md:h-8 m-1">
+          <div className="betDice m-1">
             <Die value={betValue!} />
           </div>
         </div>
@@ -194,7 +193,10 @@ const Player = ({ userId }: { userId: UserId }) => {
         <Tippy
           content={
             <span>
-              <span className={color.textLight}>{username}</span> is thinking...
+              <Trans>
+                <span className={color.textLight}>{username}</span> is
+                thinking...
+              </Trans>
             </span>
           }
         >
@@ -210,7 +212,10 @@ const Player = ({ userId }: { userId: UserId }) => {
     playerIcon = "😿";
     iconTooltip = (
       <span>
-        <span className={color.textLight}>{username}</span> has been eliminated
+        <Trans>
+          <span className={color.textLight}>{username}</span> has been
+          eliminated
+        </Trans>
       </span>
     );
   } else if (iHaveRolled && step === "revealed") {
@@ -218,15 +223,19 @@ const Player = ({ userId }: { userId: UserId }) => {
       playerIcon = "✔️";
       iconTooltip = (
         <span>
-          <span className={color.textLight}>{username}</span> has rolled
+          <Trans>
+            <span className={color.textLight}>{username}</span> has rolled
+          </Trans>
         </span>
       );
     } else {
       playerIcon = "⌛";
       iconTooltip = (
         <span>
-          Waiting for <span className={color.textLight}>{username}</span> to
-          roll
+          <Trans>
+            Waiting for <span className={color.textLight}>{username}</span> to
+            roll
+          </Trans>
         </span>
       );
     }
@@ -337,17 +346,14 @@ const Player = ({ userId }: { userId: UserId }) => {
     });
 
   return (
-    <div className={classNames("player rounded-md flex space-x-2", color.text)}>
+    <div className={classNames("rounded-md flex space-x-2", color.text)}>
       <div
-        className={classNames(
-          "rounded-md my-auto w-0 flex-1 flex overflow-hidden",
-          {
-            "bg-white border-2": isCurrentPlayer || isPreviousPlayer,
-            [color.border]: isPreviousPlayer,
-            "ring-2 ring-black border-black": isCurrentPlayer,
-            "filter grayscale opacity-70": !isAlive,
-          },
-        )}
+        className={classNames("rounded-md w-0 flex-1 flex overflow-hidden", {
+          "bg-white border-2": isCurrentPlayer || isPreviousPlayer,
+          [color.border]: isPreviousPlayer,
+          "ring-2 ring-black border-black": isCurrentPlayer,
+          "filter grayscale opacity-70": !isAlive,
+        })}
       >
         <div
           className={classNames(
@@ -358,7 +364,7 @@ const Player = ({ userId }: { userId: UserId }) => {
             color.bg,
           )}
         >
-          <div className="my-auto p-1 sm:p-2 text-lg sm:text-xl truncate">
+          <div className="my-auto px-1 sm:px-2 text-lg sm:text-xl truncate">
             {username}
           </div>
         </div>
@@ -442,30 +448,78 @@ export const getDefaultBet = ({
   return oldBet;
 };
 
+const WildDie = () => {
+  return (
+    <span className="inline-block h-5 w-5">
+      <Die
+        value={1}
+        color="bg-gray-200"
+        colorDot="text-gray-500"
+        border="border-gray-500"
+        component="span"
+      />
+    </span>
+  );
+};
+
 const WildsInfo = () => {
   const palifico = useSelector((state) => state.board.palifico);
+  const iAmAlive = useSelector(iAmAliveSelector);
+  const iHaveRolled = useSelector(iHaveRolledSelector);
+  const step = useSelector((state) => state.board.step);
+
+  const shouldSeePalifico =
+    palifico &&
+    (step === "play" || (step === "revealed" && (!iHaveRolled || !iAmAlive)));
+
+  const palificoTrans = useTransition(shouldSeePalifico, {
+    config: {
+      tension: 200,
+      friction: 22,
+      clamp: true,
+    },
+    from: { opacity: 0, transform: "scale(4) rotate(12deg)" },
+    enter: { opacity: 1, transform: "scale(1) rotate(-5deg)" },
+    leave: { opacity: 0 },
+  });
+
   return (
-    <div className="text-gray-600 panel flex space-x-2 items-center py-0.5 pl-1 pr-1.5 rounded-md">
-      <div className="h-5 w-5">
-        <Die
-          value={1}
-          color="bg-gray-200"
-          colorDot="text-gray-500"
-          border="border-gray-500"
-        />
+    <div className="w-full h-full flex justify-end">
+      {palificoTrans(
+        (style, item) =>
+          item && (
+            <div className="ml auto w-24 h-full relative">
+              {/* absolute so that it doesn't influence the height of the container. */}
+              <div className="absolute right-0 top-0 bottom-0 flex items-center">
+                <animated.div
+                  className="my-auto ml-auto mr-1 opacity-0"
+                  style={{ ...style }}
+                >
+                  <Palifico />
+                </animated.div>
+              </div>
+            </div>
+          ),
+      )}
+      <div className="flex-1 w-0 max-w-60 flex">
+        <div className="ml-auto my-auto inline-block text-gray-600 py-0.5 pl-1 pr-1.5 leading-5">
+          {shouldSeePalifico ? (
+            <Trans>
+              <WildDie /> are <span className="text-red-600">NOT</span> wild
+            </Trans>
+          ) : (
+            <Trans>
+              <WildDie /> are wild
+            </Trans>
+          )}
+        </div>
       </div>
-      <span className="font-light">
-        are {palifico && <span className="text-red-600">NOT</span>} wild
-      </span>
     </div>
   );
 };
 
 const PlaySound = () => {
-  const itsMyTurn = useSelector((state) => {
-    const { currentPlayerIndex, playerOrder } = state.board;
-    return state.userId === playerOrder[currentPlayerIndex];
-  });
+  const itsMyTurn = useSelector(itsMyTurnSelector);
 
   // Play sound if it's my turn.
   useEffect(() => {
@@ -477,41 +531,44 @@ const PlaySound = () => {
   return <></>;
 };
 
-const Buttons = () => {
+function UpDownButton({
+  onClick,
+  direction,
+  disabled,
+}: {
+  onClick: () => void;
+  direction: "up" | "down";
+  disabled: boolean;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className="w-full py-1.5 text-sm"
+      disabled={disabled}
+    >
+      {direction === "up" ? "▲" : "▼"}
+    </button>
+  );
+}
+
+function ActionButtons() {
   const dispatch = useDispatch();
+
+  const numDice = useSelector((state) => state.playerboard?.numDice);
   const currentBet = useSelector((state) => state.board.bet);
   const palifico = useSelector((state) => state.board.palifico);
+  const itsMyTurn = useSelector(itsMyTurnSelector);
 
   const [betQty] = currentBet == null ? [undefined, undefined] : currentBet;
-
-  const noPlayerboard = useSelector((state) => state.playerboard == null);
-  const numDice = useSelector((state) => state.playerboard?.numDice);
-  const hasOneDiceLeft = numDice === 1;
-
-  const lowestQty = getLowestQty({
-    oldBet: currentBet,
-    palifico,
-    hasOneDiceLeft,
-  });
-
-  const [newBet, setNewBet] = useState(() =>
-    getDefaultBet({ oldBet: currentBet, palifico, hasOneDiceLeft }),
-  );
-
-  const [newBetQty, newBetValue] = newBet;
 
   const setNewBetQty = (x: number) => setNewBet([x, newBetValue]);
   const setNewBetValue = (x: number) => setNewBet([newBetQty, x]);
 
-  const itsMyTurn = useSelector((state) => {
-    const { currentPlayerIndex, playerOrder } = state.board;
-    return state.userId === playerOrder[currentPlayerIndex];
-  });
+  const hasOneDiceLeft = numDice === 1;
 
-  const winner = useSelector((state) => state.board.winner);
-  const gameOver = winner != null;
-
-  const step = useSelector((state) => state.board.step);
+  const [newBet, setNewBet] = useState(() =>
+    getDefaultBet({ oldBet: currentBet, palifico, hasOneDiceLeft }),
+  );
 
   // When the currentBet is back to null (for a new turn), we reset our internal state.
   useEffect(() => {
@@ -529,6 +586,14 @@ const Buttons = () => {
     }
   }, [itsMyTurn, currentBet, hasOneDiceLeft, palifico]);
 
+  const [newBetQty, newBetValue] = newBet;
+
+  const lowestQty = getLowestQty({
+    oldBet: currentBet,
+    palifico,
+    hasOneDiceLeft,
+  });
+
   const canDecrementQty = newBetQty > lowestQty;
 
   const canDecrementValue =
@@ -541,92 +606,96 @@ const Buttons = () => {
 
   const canIncrementValue = newBetValue < 6 && (!palifico || hasOneDiceLeft);
 
-  const iHaveRolled = useSelector(iHaveRolledSelector);
-
-  const iAmAlive = useSelector(iAmAliveSelector);
-
-  if (noPlayerboard) {
-    return null;
-  }
-
-  const buttons = (
-    <>
-      <div className="buttonCol">
-        <button
+  return (
+    <div className="flex h-full w-full space-x-1">
+      <div className="flex-initial w-12 flex flex-col justify-between">
+        <UpDownButton
           onClick={() => setNewBetQty(newBetQty + 1)}
-          className="upDownButton"
           disabled={!itsMyTurn}
-        >
-          ▲
-        </button>
+          direction="up"
+        />
         {itsMyTurn && <div className="m-auto text-2xl">{newBetQty}</div>}
-        <button
+        <UpDownButton
           onClick={() => setNewBetQty(newBetQty - 1)}
           disabled={!canDecrementQty || !itsMyTurn}
-          className="upDownButton"
-        >
-          ▼
-        </button>
+          direction="down"
+        />
       </div>
-      <div className="buttonCol">
-        <button
+      <div className="flex-initial w-12 flex flex-col justify-between">
+        <UpDownButton
           onClick={() => setNewBetValue(newBetValue + 1)}
           disabled={!canIncrementValue || !itsMyTurn}
-          className="upDownButton"
-        >
-          ▲
-        </button>
+          direction="up"
+        />
         {itsMyTurn && (
           <div className="m-auto w-6 h-6">
             <Die value={newBetValue} />
           </div>
         )}
-        <button
+        <UpDownButton
           onClick={() => setNewBetValue(newBetValue - 1)}
           disabled={!canDecrementValue || !itsMyTurn}
-          className="upDownButton"
+          direction="down"
+        />
+      </div>
+      <div className="flex-initial w-24 flex-1 w-full">
+        <button
+          onClick={() =>
+            dispatch(bet({ numDice: newBetQty, diceValue: newBetValue }))
+          }
+          disabled={
+            !isNewBetValid({
+              oldBet: currentBet,
+              newBet: [newBetQty, newBetValue],
+              palifico,
+              currentPlayerNumDice: numDice!,
+            }) || !itsMyTurn
+          }
+          className="w-full h-full text-xl"
         >
-          ▼
+          <Trans>Bet</Trans>
         </button>
       </div>
-      <button
-        onClick={() =>
-          dispatch(bet({ numDice: newBetQty, diceValue: newBetValue }))
-        }
-        disabled={
-          !isNewBetValid({
-            oldBet: currentBet,
-            newBet: [newBetQty, newBetValue],
-            palifico,
-            currentPlayerNumDice: numDice!,
-          }) || !itsMyTurn
-        }
-        className="actionButton"
-      >
-        Bet
-      </button>
-      <button
-        onClick={() => {
-          dispatch(call());
-        }}
-        disabled={betQty == null || !itsMyTurn}
-        className="actionButton border-red-700 text-red-700"
-      >
-        Dudo!
-      </button>
-    </>
+      <div className="flex-initial w-24 w-full">
+        <button
+          onClick={() => {
+            dispatch(call());
+          }}
+          disabled={betQty == null || !itsMyTurn}
+          className="text-xl h-full w-full border-red-700 text-red-700"
+        >
+          Dudo!
+        </button>
+      </div>
+    </div>
   );
+}
+
+const Buttons = () => {
+  const dispatch = useDispatch();
+
+  const noPlayerboard = useSelector((state) => state.playerboard == null);
+  const winner = useSelector((state) => state.board.winner);
+  const step = useSelector((state) => state.board.step);
+  const iHaveRolled = useSelector(iHaveRolledSelector);
+  const iAmAlive = useSelector(iAmAliveSelector);
+
+  const gameOver = winner != null;
+
+  if (noPlayerboard) {
+    return null;
+  }
+
   return (
-    <div className="w-full h-40 flex panel">
-      <div
-        className={classNames("m-auto flex h-full space-x-1", {
-          notMyTurn: !itsMyTurn,
-        })}
-      >
-        {step === "play" && !gameOver && buttons}
+    <div className="w-full h-full flex panel justify-center">
+      <div className="m-auto flex max-w-full h-full space-x-2 leading-2">
+        {step === "play" && !gameOver && <ActionButtons />}
         {step === "revealed" && !iHaveRolled && iAmAlive && !gameOver && (
-          <button onClick={() => dispatch(roll())} className="actionButton">
-            Roll
+          <button
+            onClick={() => dispatch(roll())}
+            className="flex-initial w-24 h-full text-xl leading-7"
+          >
+            <Trans>Roll</Trans>
           </button>
         )}
       </div>
@@ -634,161 +703,162 @@ const Buttons = () => {
   );
 };
 
-const PlayerName = ({ userId }: { userId: UserId }) => {
-  const myUserId = useSelector((state) => state.userId);
-  const username = useUsername(userId);
-
+const PlayerColored = ({
+  userId,
+  children,
+}: {
+  userId: UserId;
+  children: ReactNode;
+}) => {
   const colorIdx = useSelector((state) => state.board.players[userId].color);
-
   const color = PLAYER_COLORS[colorIdx];
   return (
     <span
-      className={classNames(
-        color.text,
-        color.bg,
-        "rounded px-1 mx-2 truncate inline-block my-auto",
-      )}
+      className={classNames(color.text, color.bg, "rounded px-1 truncate")}
       key={"playerName"}
       style={{ maxWidth: "8rem" }}
     >
-      {userId === myUserId ? "You" : username}
+      {children}
     </span>
   );
 };
 
+const Username = ({ userId }: { userId: UserId }) => {
+  const username = useUsername(userId);
+  return <>{username}</>;
+};
+
 const Info = () => {
   const myUserId = useSelector((state) => state.userId);
-
-  const itsMyTurn = useSelector((state) => {
-    const { currentPlayerIndex, playerOrder } = state.board;
-    return state.userId === playerOrder[currentPlayerIndex];
-  });
-
+  const itsMyTurn = useSelector(itsMyTurnSelector);
   const step = useSelector((state) => state.board.step);
-
   const loser = useSelector((state) => state.board.loser);
-
   const winner = useSelector((state) => state.board.winner);
   const currentPlayer = useSelector(
     (state) => state.board.playerOrder[state.board.currentPlayerIndex],
   );
-
   const loserIsAlive = useSelector((state) =>
     loser ? state.board.players[loser].isAlive : false,
   );
-
   const iHaveRolled = useSelector(iHaveRolledSelector);
 
   let infoEl: ReactNode;
 
-  if (winner != null) {
-    infoEl = (
-      <>
-        <PlayerName userId={winner} />
-        {winner === myUserId ? " have won" : " has won!"}
-      </>
-    );
-  } else if (loser != null && step === "revealed" && !iHaveRolled) {
-    let text;
+  if (winner) {
+    infoEl =
+      winner === myUserId ? (
+        <Trans>
+          <PlayerColored userId={winner}>You</PlayerColored> have won
+        </Trans>
+      ) : (
+        <Trans>
+          <PlayerColored userId={winner}>
+            <Username userId={winner} />
+          </PlayerColored>{" "}
+          has won!
+        </Trans>
+      );
+  } else if (loser && step === "revealed" && !iHaveRolled) {
     const isAlive = loserIsAlive;
     if (isAlive) {
-      text = " lost one die!";
+      infoEl =
+        loser === myUserId ? (
+          <Trans>
+            <PlayerColored userId={loser}>You</PlayerColored> lost one die!
+          </Trans>
+        ) : (
+          <Trans>
+            <PlayerColored userId={loser}>
+              <Username userId={loser} />
+            </PlayerColored>{" "}
+            lost one die!
+          </Trans>
+        );
     } else if (myUserId === loser) {
-      text = " are out!";
+      infoEl = (
+        <Trans>
+          <PlayerColored userId={loser}>You</PlayerColored> are out!
+        </Trans>
+      );
     } else {
-      text = " is out";
+      infoEl = (
+        <Trans>
+          <PlayerColored userId={loser}>
+            <Username userId={loser} />
+          </PlayerColored>{" "}
+          is out
+        </Trans>
+      );
     }
-    infoEl = (
-      <>
-        <PlayerName userId={loser} /> {text}
-      </>
-    );
   } else if (step === "revealed" && iHaveRolled) {
-    infoEl = <>Waiting for everyone to roll...</>;
+    infoEl = <Trans>Waiting for everyone to roll...</Trans>;
   } else if (itsMyTurn) {
-    infoEl = <>It's your turn!</>;
+    // Special case we want to center the text and make it bigger when it's your turn.
+    return (
+      <div className="info text-center w-full text-2xl">
+        <Trans>It's your turn!</Trans>
+      </div>
+    );
   } else {
     infoEl = (
-      <>
-        <PlayerName userId={currentPlayer} /> is thinking...
-      </>
+      <Trans>
+        <PlayerColored userId={currentPlayer}>
+          <Username userId={currentPlayer} />
+        </PlayerColored>{" "}
+        is thinking...
+      </Trans>
     );
   }
 
-  return <div className="info my-auto flex">{infoEl}</div>;
+  return (
+    <div className="info flex items-center flex-1">
+      <div className="inline-block leading-6">{infoEl}</div>
+    </div>
+  );
 };
 
 const Header = () => {
   const actualCount = useSelector((state) => state.board.actualCount);
-
-  const iAmAlive = useSelector(iAmAliveSelector);
   const iHaveRolled = useSelector(iHaveRolledSelector);
-
+  const imAlive = useSelector(iAmAliveSelector);
   const bet = useSelectorShallow((state) => state.board.bet);
   const step = useSelector((state) => state.board.step);
-  const palifico = useSelector((state) => state.board.palifico);
-
-  const betColor = useSelector((state) => {
-    if (bet == null) {
-      return undefined;
-    }
-    const { previousPlayerIndex, playerOrder, players } = state.board;
-    if (previousPlayerIndex === undefined) {
-      return undefined;
-    }
-    return PLAYER_COLORS[players[playerOrder[previousPlayerIndex]].color];
-  });
-
-  const shouldSeePalifico =
-    palifico &&
-    (step === "play" || (step === "revealed" && (!iHaveRolled || !iAmAlive)));
-
-  const palificoTrans = useTransition(shouldSeePalifico, {
-    config: {
-      tension: 473,
-      friction: 22,
-    },
-    from: { opacity: 0, transform: "scale(4) rotate(12deg)" },
-    enter: { opacity: 1, transform: "scale(1) rotate(-20deg)" },
-    leave: { opacity: 0 },
-  });
+  const itsMyTurn = useSelector(itsMyTurnSelector);
 
   const actualCountEl = step == "revealed" && !iHaveRolled && bet != null && (
-    <>
-      <div className="text-xl my-auto">{actualCount}</div>
-      <div className="w-6 h-6 ml-1 my-auto">
-        <Die value={bet[1]} />
-      </div>
-    </>
+    <span className="inline-block align-middle text-center">
+      <span className="text-xl my-auto w-full align-middle">{actualCount}</span>
+      <span className="w-6 h-6 ml-1 my-auto inline-block align-middle">
+        <Die component="span" value={bet[1]} />
+      </span>
+    </span>
   );
 
   return (
-    <div className="w-full text-2xl sm:text-2xl md:text-2xl flex">
-      <div className="flex-1 flex justify-start relative">
-        <div className="absolute -left-2 right-0 top-0 bottom-0 flex">
-          {palificoTrans(
-            (style, item) =>
-              item && (
-                <animated.div
-                  className="my-auto mr-auto opacity-0"
-                  style={{ ...style }}
-                >
-                  <Palifico />
-                </animated.div>
-              ),
-          )}
+    <div
+      className={classNames(
+        "w-full panel flex-initial h-16 flex items-center",
+        itsMyTurn && step === "play" && "bg-gray-600 text-white rounded",
+      )}
+    >
+      <div className="w-full text-xl flex">
+        <div className="flex-1 w-0 flex">
+          <Info />
         </div>
-      </div>
-      <Info />
-      <div className={classNames("flex-1 flex justify-end")}>
-        {bet != null && !iHaveRolled && (
-          <div
-            className={classNames(
-              "flex my-auto mr-2 px-1 py-0.5 rounded",
-              betColor?.bg,
-            )}
-          >
-            {actualCountEl}
+        {bet != null && (!imAlive || !iHaveRolled) && step === "revealed" && (
+          <div className={classNames("flex justify-end")}>
+            <div
+              className={classNames(
+                "w-full",
+                "flex flex-col ml-4 mb-auto px-1 py-0.5 rounded",
+                "bg-gray-200",
+              )}
+            >
+              <span className="text-xs text-gray-600 text-center leading-3 pt-1">
+                <Trans>Total</Trans>
+              </span>
+              {actualCountEl}
+            </div>
           </div>
         )}
       </div>
@@ -802,28 +872,39 @@ const Board = () => {
   const playerOrder = useSelectorShallow((state) => {
     return state.board.playerOrder;
   });
-
   const numDice = useSelector((state) => state.board.startNumDice);
+
+  const numPlayers = playerOrder.length;
 
   useEffect(() => {
     const root = document.documentElement;
     root.style.setProperty("--num-dice", `${numDice}`);
-  }, [numDice]);
+    root.style.setProperty("--num-players", `${numPlayers}`);
+  }, [numDice, numPlayers]);
 
   return (
-    <div className="board w-full h-full flex flex-col manipulation">
-      <div className="m-auto w-full max-w-screen-sm md:max-w-screen-md p-1 space-y-4 flex flex-col">
-        <div className="w-full panel">
-          <Header />
+    <div className="board w-full h-full flex flex-col manipulation justify-center items-center">
+      <div
+        className={`
+          w-full max-w-screen-sm
+          p-1 sm:p-2 space-y-1 sm:space-y-2
+          flex flex-col
+          rounded-lg bg-gray-200
+        `}
+      >
+        <Header />
+        <div className="panel">
+          <div className="space-y-1 vsm:space-y-1.5">
+            {playerOrder.map((u) => (
+              <Player userId={u} key={u} />
+            ))}
+          </div>
+          <div className="h-11 vsm:mt-2 flex items-center">
+            <WildsInfo />
+          </div>
         </div>
-        <div className="space-y-1.5 md:space-y-2 panel">
-          {playerOrder.map((u) => (
-            <Player userId={u} key={u} />
-          ))}
-        </div>
-        <Buttons />
-        <div className="ml-auto">
-          <WildsInfo />
+        <div className="h-32 vsm:h-36">
+          <Buttons />
         </div>
       </div>
       <PlaySound />
