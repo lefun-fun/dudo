@@ -1,6 +1,6 @@
 // Inspired from https://github.com/simlmx/chickenroll/blob/main/src/components/Die.tsx
 import classNames from "classnames";
-import React from "react";
+import { ElementType } from "react";
 
 /*
  * Define the dots as circles in a 100x100 squre
@@ -110,7 +110,7 @@ interface DieProps {
   value: number;
   downlight?: boolean;
   highlight?: boolean;
-  component?: React.ElementType;
+  component?: ElementType;
 }
 
 export const Die = ({

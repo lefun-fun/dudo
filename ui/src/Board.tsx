@@ -10,7 +10,7 @@ import {
 } from "@react-spring/web";
 import Tippy from "@tippyjs/react";
 import classNames from "classnames";
-import React, { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 
 import type { UserId } from "@lefun/core";
 import {
