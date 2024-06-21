@@ -1,7 +1,9 @@
 {
-  "name": "@lefun/dudo-ui",
+  "name": "dudo-ui",
   "version": "1.0.0",
-  "description": "",
+  "description": "UI for Dudo at https://lefun.fun",
+  "author": "Simon Lemieux",
+  "license": "MIT",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/types/index.d.ts",
@@ -22,8 +24,6 @@
     "lingui:compile": "pnpm lingui compile",
     "lingui:extract": "pnpm lingui extract"
   },
-  "author": "Simon Lemieux",
-  "license": "ISC",
   "devDependencies": {
     "@babel/preset-react": "^7.24.7",
     "@lefun/core": "1.1.3",
@@ -67,7 +67,7 @@
     "vitest": "^1.2.1"
   },
   "dependencies": {
-    "@lefun/dudo-game": "workspace:*",
+    "dudo-game": "workspace:*",
     "@react-spring/web": "^9.7.3",
     "@tippyjs/react": "^4.2.6",
     "classnames": "^2.3.1",

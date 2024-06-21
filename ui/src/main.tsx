@@ -1,7 +1,7 @@
 import "@lefun/dev-server/index.css";
 
 import { render } from "@lefun/dev-server";
-import { DudoBoard, DudoPlayerboard, game } from "@lefun/dudo-game";
+import { DudoBoard, DudoPlayerboard, game } from "dudo-game";
 
 // @ts-expect-error abc
 import { messages as en } from "./locales/en/messages";

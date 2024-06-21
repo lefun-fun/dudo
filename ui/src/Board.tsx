@@ -14,14 +14,6 @@ import { ReactNode, useEffect, useState } from "react";
 
 import type { UserId } from "@lefun/core";
 import {
-  bet,
-  call,
-  DudoBoard,
-  DudoPlayerboard,
-  isNewBetValid,
-  roll,
-} from "@lefun/dudo-game";
-import {
   playSound,
   Selector,
   useDispatch,
@@ -29,6 +21,14 @@ import {
   useSelectorShallow as _useSelectorShallow,
   useUsername,
 } from "@lefun/ui";
+import {
+  bet,
+  call,
+  DudoBoard,
+  DudoPlayerboard,
+  isNewBetValid,
+  roll,
+} from "dudo-game";
 
 import { Die } from "./Die";
 import {

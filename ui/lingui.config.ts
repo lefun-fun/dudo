@@ -1,7 +1,7 @@
 import type { LinguiConfig } from "@lingui/conf";
 
-import { game } from "@lefun/dudo-game";
 import { lefunExtractor } from "@lefun/ui/lefunExtractor";
+import { game } from "dudo-game";
 
 const config: LinguiConfig = {
   locales: ["en", "fr"],
