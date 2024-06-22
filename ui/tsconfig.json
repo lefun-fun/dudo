@@ -6,6 +6,5 @@
     "declarationDir": "./dist/types",
     "moduleResolution": "bundler"
   },
-  "include": ["src/**/*", "lingui.config.ts"],
-  "exclude": ["src/main.tsx"]
+  "include": ["src/**/*", "lingui.config.ts"]
 }
