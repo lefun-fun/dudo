@@ -13,7 +13,7 @@ Dudo game at lefun.fun. https://lefun.fun/en/g/dudo
 
 ### Install the dependencies
 
-    pnpm install
+    make install
 
 ### Start de dev server
 

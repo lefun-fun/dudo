@@ -1,3 +1,7 @@
+.PHONY: install
+install:
+	pnpm install
+
 .PHONY: build
 build:
 	pnpm run -r build
