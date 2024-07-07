@@ -24,7 +24,7 @@ check-format:
 
 .PHONY: watch
 watch:
-	pnpm run -r watch
+	pnpm run --parallel -r watch
 
 .PHONY: dev
 dev:
