@@ -31,26 +31,12 @@ import {
 } from "dudo-game";
 
 import { Die } from "./Die";
+import { useFonts } from "./hooks";
 import {
   iAmAliveSelector,
   iHaveRolledSelector,
   itsMyTurnSelector,
 } from "./selectors";
-
-const useSetFont = () => {
-  // Add the google font. This is a bit hacky but we have no other way to control the
-  // "outer" HTML.
-  useEffect(() => {
-    const parent = document.getElementsByTagName("head")[0];
-    parent.insertAdjacentHTML(
-      "beforeend",
-      `
-      <link rel="preconnect" href="https://fonts.gstatic.com">
-      <link href="https://fonts.googleapis.com/css2?family=Hammersmith+One&display=swap" rel="stylesheet">
-      `,
-    );
-  }, []);
-};
 
 type PlayerColor = {
   text: string;
@@ -867,7 +853,7 @@ const Header = () => {
 };
 
 const Board = () => {
-  useSetFont();
+  useFonts();
 
   const playerOrder = useSelectorShallow((state) => {
     return state.board.playerOrder;

@@ -140,6 +140,30 @@ msgstr "<0>You</0> lost one die"
 msgid "Bet"
 msgstr "Bet"
 
+#: src/Rules.tsx
+msgid "Bidding wilds"
+msgstr "Bidding wilds"
+
+#: src/Rules.tsx
+msgid "Calling <0/> ends the round. If the bidder's claim is met, the player who called <1/> loses one die. If not, then the bidder loses one die. The loosing player starts the next round."
+msgstr "Calling <0/> ends the round. If the bidder's claim is met, the player who called <1/> loses one die; if not, then the bidder loses one die. The loosing player starts the next round."
+
+#: src/Rules.tsx
+msgid "Each round, all the players roll their dice, hiding the result from the other players."
+msgstr "Each round, the players roll their dice, hiding the result from the other players."
+
+#: src/Rules.tsx
+msgid "End of the game"
+msgstr "End of the game"
+
+#: src/Rules.tsx
+msgid "Increase the quantity and/or the value of the dice."
+msgstr "Increase the quantity and/or the value of the dice."
+
+#: src/Rules.tsx
+msgid "Invalid raises"
+msgstr "Invalid raises"
+
 #: src/Board.tsx
 msgid "It's your turn!"
 msgstr "It's your turn!"
@@ -148,13 +172,58 @@ msgstr "It's your turn!"
 msgid "No wilds. Only players with 1 die left can change the value of the dice."
 msgstr "No wilds. Only players with 1 die left can change the value of the dice."
 
+#: src/Rules.tsx
+msgid "Not lower the quantity of dice."
+msgstr "Not lower the quantity of dice."
+
+#: src/Rules.tsx
+msgid "Once you have lost all your dice, you are eliminated. The last player left wins."
+msgstr "Players with no dice left are eliminated. The last player left wins."
+
+#: src/Rules.tsx
+msgid "Overview"
+msgstr "Overview"
+
+#: src/Rules.tsx
+msgid "Raising the bid"
+msgstr "Raising the bid"
+
 #: src/Board.tsx
 msgid "Roll"
 msgstr "Roll"
 
+#: src/Rules.tsx
+msgid "Rules of Dudo"
+msgstr "Rules of Dudo"
+
+#: src/Rules.tsx
+msgid "The first player makes a bid about how many dice of a certain value are showing <0>among all players</0>, at a minimum. Ones (<1/>) are wild. For example, a bid of <2>5</2> <3/> is a claim that between all players, there are <4>at least</4> <5>5</5> <6/> or <7/>."
+msgstr "Taking turns, players make bids about how many dice of a certain value are showing <0>among all players</0>. 1s (<1/>) are wild, meaning they can count as any value. For example, a bid of <2>5</2> <3/> is a claim that between all players, there are <4>at least</4> <5>5</5> <6/> or <7/>."
+
+#: src/Rules.tsx
+msgid "The game is played over several rounds."
+msgstr "The game is played over several rounds."
+
+#: src/Rules.tsx
+msgid "The next player must either raise the bid or call <0/>."
+msgstr "Players must raise the previous bid or call <0/>."
+
+#: src/Rules.tsx
+msgid "The player raising must"
+msgstr "The player raising must"
+
+#: src/Rules.tsx
+msgid "There needs to be at least 3 players remaining for Palifico to take effect."
+msgstr "There needs to be at least 3 players remaining for Palifico to take effect."
+
 #: src/Board.tsx
 msgid "Total"
 msgstr "Total"
+
+#: src/Rules.tsx
+#: src/Rules.tsx
+msgid "Valid raises"
+msgstr "Valid raises"
 
 #: src/Board.tsx
 msgid "Waiting for <0>{username}</0> to roll"
@@ -163,3 +232,11 @@ msgstr "Waiting for <0>{username}</0> to roll"
 #: src/Board.tsx
 msgid "Waiting for everyone to roll..."
 msgstr "Waiting for everyone to roll..."
+
+#: src/Rules.tsx
+msgid "When a player has only 1 die left, they start a <0>Palifico</0> round. In that round, only players with 1 die left can change the <1>value</1> of the dice in the bid."
+msgstr "When a player has only 1 die left, they start a <0>Palifico</0> round. In that round, only players with 1 die left can change the <1>value</1> of the dice in the bid."
+
+#: src/Rules.tsx
+msgid "You can also bid the total number of <0/>. When doing so, you can halve (rounded up) the number of dice of a non-wild bid. You can go back to a non-wild bid by doubling and adding one to the quantity of dice."
+msgstr "Players can also bid the total number of <0/>. When doing so, they can halve (rounded up) the number of dice of a non-wild bid. One can go back to a non-wild bid by doubling and adding one to the quantity of dice."

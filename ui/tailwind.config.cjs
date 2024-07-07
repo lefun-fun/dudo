@@ -4,6 +4,7 @@ const sm = "576px";
 const md = "768px";
 
 const units = {
+  0: "0",
   auto: "auto",
   0.5: "0.125rem",
   1: "0.25rem",

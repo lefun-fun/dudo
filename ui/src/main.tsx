@@ -13,6 +13,12 @@ render<DudoBoard, DudoPlayerboard>({
     const { default: Board } = await import("./Board");
     return <Board />;
   },
+  rules: async () => {
+    // @ts-expect-error the import is there even if TS does not see it!
+    await import("./index.css");
+    const { default: Rules } = await import("./Rules");
+    return <Rules />;
+  },
   gameDef: game,
   matchSettings: { startNumDice: "3" },
   messages: { en, fr },

@@ -18,8 +18,8 @@
     "test": "pnpm vitest run src"
   },
   "dependencies": {
-    "@lefun/core": "1.4.0",
-    "@lefun/game": "1.4.0",
+    "@lefun/core": "1.5.0",
+    "@lefun/game": "1.5.0",
     "lodash-es": "^4.17.21"
   },
   "devDependencies": {

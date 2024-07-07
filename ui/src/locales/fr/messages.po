@@ -140,6 +140,30 @@ msgstr "<0>Vous</0> avez perdu un dé"
 msgid "Bet"
 msgstr "Miser"
 
+#: src/Rules.tsx
+msgid "Bidding wilds"
+msgstr "Miser les frimes"
+
+#: src/Rules.tsx
+msgid "Calling <0/> ends the round. If the bidder's claim is met, the player who called <1/> loses one die. If not, then the bidder loses one die. The loosing player starts the next round."
+msgstr "Annoncer <0/> met fin à la ronde. Si la mise du joueur précédent est confirmée, le joueur qui a annoncé <1/> perd un dé ; sinon, c'est le joueur qui a fait la mise erronée qui perd un dé. Le perdant commence la ronde suivante."
+
+#: src/Rules.tsx
+msgid "Each round, all the players roll their dice, hiding the result from the other players."
+msgstr "À chaque ronde, les joueurs roulent leurs dés, tout en dissimulant le résultat aux autres joueurs."
+
+#: src/Rules.tsx
+msgid "End of the game"
+msgstr "Fin de la partie"
+
+#: src/Rules.tsx
+msgid "Increase the quantity and/or the value of the dice."
+msgstr "Augmenter la quantité et/ou la valeur des dés."
+
+#: src/Rules.tsx
+msgid "Invalid raises"
+msgstr "Mises invalides"
+
 #: src/Board.tsx
 msgid "It's your turn!"
 msgstr "C'est votre tour!"
@@ -148,13 +172,58 @@ msgstr "C'est votre tour!"
 msgid "No wilds. Only players with 1 die left can change the value of the dice."
 msgstr "Aucune frime. Seuls les joueurs avec 1 dé restant peuvent changer la valeur des dés."
 
+#: src/Rules.tsx
+msgid "Not lower the quantity of dice."
+msgstr "Ne pas réduire le nombre de dés."
+
+#: src/Rules.tsx
+msgid "Once you have lost all your dice, you are eliminated. The last player left wins."
+msgstr "Un joueur est éliminé du jeu lorsqu'il n'a plus de dés. Le dernier joueur restant gagne."
+
+#: src/Rules.tsx
+msgid "Overview"
+msgstr "Aperçu"
+
+#: src/Rules.tsx
+msgid "Raising the bid"
+msgstr "Augmenter la mise"
+
 #: src/Board.tsx
 msgid "Roll"
 msgstr "Lancer les dés"
 
+#: src/Rules.tsx
+msgid "Rules of Dudo"
+msgstr "Règles de Dudo"
+
+#: src/Rules.tsx
+msgid "The first player makes a bid about how many dice of a certain value are showing <0>among all players</0>, at a minimum. Ones (<1/>) are wild. For example, a bid of <2>5</2> <3/> is a claim that between all players, there are <4>at least</4> <5>5</5> <6/> or <7/>."
+msgstr "À tour de rôle, les joueurs misent sur le nombre de dés d'une certaine valeur qui doivent être présents <0>parmi tous les joueurs</0>. Les 1 (<1/>) sont frimés, c'est-à-dire qu'ils peuvent prendre n'importe quelle valeur. Par exemple, une mise de <2>5</2> <3/> signifie qu'entre tous les joueurs, il y en a <4>au moins</4> <5>5</5> <6/> ou <7/>."
+
+#: src/Rules.tsx
+msgid "The game is played over several rounds."
+msgstr "Une partie se déroule sur plusieurs rondes."
+
+#: src/Rules.tsx
+msgid "The next player must either raise the bid or call <0/>."
+msgstr "Les joueurs doivent augmenter la mise précédente ou la contester en annonçant <0/>."
+
+#: src/Rules.tsx
+msgid "The player raising must"
+msgstr "Le joueur qui augmente la mise doit"
+
+#: src/Rules.tsx
+msgid "There needs to be at least 3 players remaining for Palifico to take effect."
+msgstr "Il doit y avoir au moins 3 joueurs restants pour que Palifico soit activé."
+
 #: src/Board.tsx
 msgid "Total"
 msgstr "Total"
+
+#: src/Rules.tsx
+#: src/Rules.tsx
+msgid "Valid raises"
+msgstr "Mises valides"
 
 #: src/Board.tsx
 msgid "Waiting for <0>{username}</0> to roll"
@@ -163,3 +232,11 @@ msgstr "<0>{username}</0> doit lancer les dés"
 #: src/Board.tsx
 msgid "Waiting for everyone to roll..."
 msgstr "Tous les joueurs doivent lancer les dé..."
+
+#: src/Rules.tsx
+msgid "When a player has only 1 die left, they start a <0>Palifico</0> round. In that round, only players with 1 die left can change the <1>value</1> of the dice in the bid."
+msgstr "Lorsqu'un joueur n'a plus qu'un dé restant, il commence alors une ronde <0>Palifico</0>. Dans cette ronde, seuls les joueurs avec 1 dé restant peuvent changer la <1>valeur</1> des dés de la mise."
+
+#: src/Rules.tsx
+msgid "You can also bid the total number of <0/>. When doing so, you can halve (rounded up) the number of dice of a non-wild bid. You can go back to a non-wild bid by doubling and adding one to the quantity of dice."
+msgstr "Un joueur peut également miser sur le nombre total de <0/>. Ce faisant, il peut diviser par 2 (arrondi à la hausse) le nombre de dés de la mise précédente avec frimes. On peut revenir à une enchère avec frimes en doublant, plus 1, la quantité de dés."

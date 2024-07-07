@@ -10,6 +10,12 @@ html {
   @apply tracking-wide;
 }
 
+html,
+body,
+#home {
+  @apply h-full w-full;
+}
+
 :root {
   --die-size: min(
     /* how much horizontal space is there */ calc(50vw / var(--num-dice)),
@@ -36,7 +42,7 @@ html {
   width: min(5rem, 40%);
 }
 
-@layer components {
+@layer base {
   button {
     cursor: pointer;
     @apply rounded-lg p-2 bg-gray-200 border-2 border-gray-500 shadow select-none;
@@ -59,4 +65,43 @@ html {
 
 .manipulation {
   touch-action: manipulation;
+}
+
+.rules {
+  @apply px-2 sm:px-6 pb-12;
+  @apply text-gray-700;
+  font-size: 19px;
+  font-family: sans-serif;
+
+  button {
+    font-family: "Hammersmith One", sans-serif;
+  }
+
+  h1 {
+    @apply text-3xl;
+    @apply text-blue-800;
+    @apply pt-16;
+    @apply font-semibold;
+  }
+
+  h2 {
+    @apply text-2xl;
+    @apply text-blue-900;
+    @apply pt-8;
+    @apply font-medium;
+  }
+
+  h3 {
+    @apply text-lg;
+    @apply text-blue-900;
+    @apply pt-4;
+    @apply font-medium;
+  }
+
+  p,
+  .paragraph {
+    @apply ml-0.5;
+    @apply pt-4;
+    @apply text-justify;
+  }
 }
