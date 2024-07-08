@@ -468,7 +468,7 @@ const WildsInfo = () => {
   });
 
   return (
-    <div className="w-full h-full flex justify-end">
+    <div className="w-full h-full flex justify-end space-x-1.5">
       <div className="ml auto w-24 h-full relative">
         {/* absolute so that it doesn't influence the height of the container. */}
         <div className="absolute right-0 top-0 bottom-0 flex items-center">
