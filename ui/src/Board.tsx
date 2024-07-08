@@ -2,12 +2,7 @@ import "tippy.js/dist/tippy.css";
 
 import { msg, Trans } from "@lingui/macro";
 import { useLingui } from "@lingui/react";
-import {
-  animated,
-  config as springConfig,
-  useSpring,
-  useTransition,
-} from "@react-spring/web";
+import { animated, config as springConfig, useSpring } from "@react-spring/web";
 import Tippy from "@tippyjs/react";
 import classNames from "classnames";
 import { ReactNode, useEffect, useState } from "react";
@@ -458,36 +453,33 @@ const WildsInfo = () => {
     palifico &&
     (step === "play" || (step === "revealed" && (!iHaveRolled || !iAmAlive)));
 
-  const palificoTrans = useTransition(shouldSeePalifico, {
+  const style = useSpring({
+    opacity: shouldSeePalifico ? 1 : 0,
+    transform: shouldSeePalifico
+      ? "scale(1) rotate(-5deg)"
+      : "scale(0) rotate(12deg)",
+    immediate: !shouldSeePalifico,
     config: {
-      tension: 200,
-      friction: 22,
-      clamp: true,
+      tension: 500,
+      friction: 12,
+      precision: 0.02,
     },
-    from: { opacity: 0, transform: "scale(4) rotate(12deg)" },
-    enter: { opacity: 1, transform: "scale(1) rotate(-5deg)" },
-    leave: { opacity: 0 },
   });
 
   return (
     <div className="w-full h-full flex justify-end">
-      {palificoTrans(
-        (style, item) =>
-          item && (
-            <div className="ml auto w-24 h-full relative">
-              {/* absolute so that it doesn't influence the height of the container. */}
-              <div className="absolute right-0 top-0 bottom-0 flex items-center">
-                <animated.div
-                  className="my-auto ml-auto mr-1 opacity-0"
-                  style={{ ...style }}
-                >
-                  <Palifico />
-                </animated.div>
-              </div>
-            </div>
-          ),
-      )}
-      <div className="flex-1 w-0 max-w-60 flex">
+      <div className="ml auto w-24 h-full relative">
+        {/* absolute so that it doesn't influence the height of the container. */}
+        <div className="absolute right-0 top-0 bottom-0 flex items-center">
+          <animated.div
+            className="my-auto ml-auto mr-1 opacity-0"
+            style={{ ...style }}
+          >
+            <Palifico />
+          </animated.div>
+        </div>
+      </div>
+      <div className="flex">
         <div className="ml-auto my-auto inline-block text-gray-600 py-0.5 pl-1 pr-1.5 leading-5">
           {shouldSeePalifico ? (
             <Trans>
@@ -879,13 +871,13 @@ const Board = () => {
         `}
       >
         <Header />
-        <div className="panel">
+        <div className="panel pb-1 vsm:pb-2.5">
           <div className="space-y-1 vsm:space-y-1.5">
             {playerOrder.map((u) => (
               <Player userId={u} key={u} />
             ))}
           </div>
-          <div className="h-11 vsm:mt-2 flex items-center">
+          <div className="h-11 mt-1 vsm:mt-2 flex items-center">
             <WildsInfo />
           </div>
         </div>
