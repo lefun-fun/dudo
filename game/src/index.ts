@@ -1,5 +1,5 @@
 import { GamePlayerSettings, GameSettings, UserId } from "@lefun/core";
-import { createMove, GameDef, Moves } from "@lefun/game";
+import { Game, GameState, PlayerMove } from "@lefun/game";
 
 //
 // Types
@@ -17,7 +17,7 @@ interface PlayerInfo {
   color: number;
 }
 
-export interface DudoBoard {
+interface DudoBoard {
   // Options
   startNumDice: number;
 
@@ -47,7 +47,7 @@ export interface DudoBoard {
   deathList: UserId[];
 }
 
-export interface DudoPlayerboard {
+interface DudoPlayerboard {
   // Current values for the dice.
   diceValues?: number[];
   // How many dice left this player has.
@@ -55,6 +55,8 @@ export interface DudoPlayerboard {
   // Are we waiting for the roll results from the server?
   isRolling: boolean;
 }
+
+export type DudoGameState = GameState<DudoBoard, DudoPlayerboard>;
 
 const gameSettings: GameSettings = [
   {
@@ -76,15 +78,6 @@ interface BetPayload {
   numDice: number;
   diceValue: number;
 }
-
-// Bet the number of dice.
-export const [BET, bet] = createMove<BetPayload>("bet");
-
-// Call bullshit
-export const [CALL, call] = createMove("call");
-
-// Roll dice for next turn
-export const [ROLL, roll] = createMove("roll");
 
 /*
  * Check that a bid is valid in a normal setting (not a palifico).
@@ -178,8 +171,9 @@ const incrementCurrentPlayer = (board: DudoBoard): number => {
   return newPlayerIndex;
 };
 
-const moves: Moves<DudoBoard, DudoPlayerboard> = {
-  [BET]: {
+const bet: PlayerMove<DudoGameState, BetPayload> =
+  //
+  {
     canDo(options) {
       const { userId, board, playerboard, payload } = options;
       const { numDice, diceValue } = payload;
@@ -196,7 +190,7 @@ const moves: Moves<DudoBoard, DudoPlayerboard> = {
       return isCurrentPlayer(userId, board) && board.step === "play" && valid;
     },
     executeNow({ board, payload }) {
-      const { numDice, diceValue } = payload as BetPayload;
+      const { numDice, diceValue } = payload;
       board.bet = [numDice, diceValue];
       incrementCurrentPlayer(board);
     },
@@ -205,8 +199,11 @@ const moves: Moves<DudoBoard, DudoPlayerboard> = {
         userIds: [board.playerOrder[board.currentPlayerIndex]],
       });
     },
-  },
-  [CALL]: {
+  };
+
+const call: PlayerMove<DudoGameState> =
+  //
+  {
     canDo(options) {
       const { userId, board } = options;
 
@@ -300,8 +297,11 @@ const moves: Moves<DudoBoard, DudoPlayerboard> = {
         endMatch({ scores });
       }
     },
-  },
-  [ROLL]: {
+  };
+
+const roll: PlayerMove<DudoGameState> =
+  //
+  {
     canDo(options) {
       const { board } = options;
       return board.step === "revealed";
@@ -370,8 +370,7 @@ const moves: Moves<DudoBoard, DudoPlayerboard> = {
         });
       }
     },
-  },
-};
+  };
 
 const gamePlayerSettings: GamePlayerSettings = {
   color: {
@@ -397,7 +396,7 @@ const gamePlayerSettings: GamePlayerSettings = {
 // Game object
 //
 
-export const game: GameDef<DudoBoard, DudoPlayerboard> = {
+export const game = {
   initialBoards({ players, random, matchSettings, matchPlayersSettings }) {
     const userIds = players;
 
@@ -434,16 +433,21 @@ export const game: GameDef<DudoBoard, DudoPlayerboard> = {
     };
 
     return {
-      //   patate :3,
       board,
       playerboards,
       itsYourTurnUsers: [playerOrder[0]],
     };
   },
-  moves,
+  playerMoves: {
+    bet,
+    roll,
+    call,
+  },
   gameSettings,
   gamePlayerSettings,
   playerScoreType: "rank",
   minPlayers: 2,
   maxPlayers: 7,
-};
+} satisfies Game<DudoGameState>;
+
+export type DudoGame = typeof game;

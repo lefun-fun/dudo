@@ -9,22 +9,14 @@ import { ReactNode, useEffect, useState } from "react";
 
 import type { UserId } from "@lefun/core";
 import {
+  makeUseMakeMove,
+  makeUseSelector,
+  makeUseSelectorShallow,
   playSound,
-  Selector,
-  useDispatch,
   useIsPlayer,
-  useSelector as _useSelector,
-  useSelectorShallow as _useSelectorShallow,
   useUsername,
 } from "@lefun/ui";
-import {
-  bet,
-  call,
-  DudoBoard,
-  DudoPlayerboard,
-  isNewBetValid,
-  roll,
-} from "dudo-game";
+import { DudoGame, DudoGameState, isNewBetValid } from "dudo-game";
 
 import { Die } from "./Die";
 import { useFonts } from "./hooks";
@@ -101,14 +93,9 @@ const Palifico = () => {
   );
 };
 
-type B = DudoBoard;
-type PB = DudoPlayerboard;
-
-const useSelector = <T,>(selector: Selector<T, B, PB>) =>
-  _useSelector<T, B, PB>(selector);
-
-const useSelectorShallow = <T,>(selector: Selector<T, B, PB>) =>
-  _useSelectorShallow<T, B, PB>(selector);
+const useSelector = makeUseSelector<DudoGameState>();
+const useSelectorShallow = makeUseSelectorShallow<DudoGameState>();
+const useMakeMove = makeUseMakeMove<DudoGame>();
 
 const Player = ({ userId }: { userId: UserId }) => {
   const iHaveRolled = useSelector(iHaveRolledSelector);
@@ -531,7 +518,7 @@ function UpDownButton({
 }
 
 function ActionButtons() {
-  const dispatch = useDispatch();
+  const makeMove = useMakeMove();
 
   const numDice = useSelector((state) => state.playerboard?.numDice);
   const currentBet = useSelector((state) => state.board.bet);
@@ -620,7 +607,7 @@ function ActionButtons() {
       <div className="flex-initial w-24 flex-1 w-full">
         <button
           onClick={() =>
-            dispatch(bet({ numDice: newBetQty, diceValue: newBetValue }))
+            makeMove("bet", { numDice: newBetQty, diceValue: newBetValue })
           }
           disabled={
             !isNewBetValid({
@@ -638,7 +625,7 @@ function ActionButtons() {
       <div className="flex-initial w-24 w-full">
         <button
           onClick={() => {
-            dispatch(call());
+            makeMove("call");
           }}
           disabled={betQty == null || !itsMyTurn}
           className="text-xl h-full w-full border-red-700 text-red-700"
@@ -651,7 +638,7 @@ function ActionButtons() {
 }
 
 const Buttons = () => {
-  const dispatch = useDispatch();
+  const makeMove = useMakeMove();
 
   const noPlayerboard = useSelector((state) => state.playerboard == null);
   const winner = useSelector((state) => state.board.winner);
@@ -671,7 +658,7 @@ const Buttons = () => {
         {step === "play" && !gameOver && <ActionButtons />}
         {step === "revealed" && !iHaveRolled && iAmAlive && !gameOver && (
           <button
-            onClick={() => dispatch(roll())}
+            onClick={() => makeMove("roll")}
             className="flex-initial w-24 h-full text-xl leading-7"
           >
             <Trans>Roll</Trans>

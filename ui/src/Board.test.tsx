@@ -3,11 +3,11 @@ import { expect, test } from "vitest";
 import type { UserId } from "@lefun/core";
 import { MatchTester as MatchTesterOrig } from "@lefun/game";
 import { render } from "@lefun/ui-testing";
-import { bet, call, DudoBoard, DudoPlayerboard, game, roll } from "dudo-game";
+import { DudoGame, DudoGameState, game } from "dudo-game";
 
 import Board, { getDefaultBet, getLowestQty, getLowestValue } from "./Board";
 
-class MatchTester extends MatchTesterOrig<DudoBoard, DudoPlayerboard> {}
+class MatchTester extends MatchTesterOrig<DudoGameState, DudoGame> {}
 
 // eslint-disable-next-line  @typescript-eslint/no-explicit-any
 let utils: any;
@@ -22,7 +22,7 @@ const renderForPlayer = (match: MatchTester, userId: UserId) => {
 
 test("the info in the header", () => {
   const match = new MatchTester({
-    gameDef: game,
+    game,
     numPlayers: 4,
     matchSettings: { startNumDice: "5" },
   });
@@ -40,7 +40,7 @@ test("the info in the header", () => {
 // TODO .each on the player we render it for
 test("play a full game", () => {
   const match = new MatchTester({
-    gameDef: game,
+    game,
     numPlayers: 3,
     matchSettings: { startNumDice: "5" },
   });
@@ -64,23 +64,23 @@ test("play a full game", () => {
   r();
   expectBets(TK, "", "");
 
-  match.makeMove(p0, bet({ numDice: 99, diceValue: 2 }));
+  match.makeMove(p0, "bet", { numDice: 99, diceValue: 2 });
 
   r();
   expectBets("99", TK, "");
 
-  match.makeMove(p1, call());
+  match.makeMove(p1, "call");
 
   r();
   expectBets("99", "Dudo!", "");
 
-  match.makeMove(p2, roll());
-  match.makeMove(p0, roll());
+  match.makeMove(p2, "roll");
+  match.makeMove(p0, "roll");
 
   r();
   expectBets(CM, HG, CM);
 
-  match.makeMove(p1, roll());
+  match.makeMove(p1, "roll");
 
   r();
   expectBets(TK, "", "");

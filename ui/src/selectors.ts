@@ -1,7 +1,7 @@
 import { MatchState } from "@lefun/ui";
-import { DudoBoard, DudoPlayerboard } from "dudo-game";
+import { DudoGameState } from "dudo-game";
 
-type State = MatchState<DudoBoard, DudoPlayerboard>;
+type State = MatchState<DudoGameState>;
 
 export const iHaveRolledSelector = (state: State) => {
   const player = state.board.players[state.userId];

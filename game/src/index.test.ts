@@ -3,17 +3,9 @@ import { expect, test } from "vitest";
 import type { UserId } from "@lefun/core";
 import { MatchTester, RandomMock } from "@lefun/game";
 
-import {
-  bet,
-  call,
-  DudoBoard,
-  DudoPlayerboard,
-  game,
-  isNewBetValid,
-  roll,
-} from ".";
+import { DudoGame as G, DudoGameState as GS, game, isNewBetValid } from ".";
 
-class Match extends MatchTester<DudoBoard, DudoPlayerboard> {}
+class Match extends MatchTester<GS, G> {}
 
 const getCurrentPlayer = (match: Match) => {
   const index = match.board.currentPlayerIndex;
@@ -25,14 +17,14 @@ test("1st player bets", () => {
   random.next(["userId-0", "userId-1", "userId-2", "userId-3"]);
 
   const match = new Match({
-    gameDef: game,
+    game,
     numPlayers: 4,
     random,
   });
 
   const [p0, p1, p2, p3] = match.meta.players.allIds;
 
-  const expectedBoard: DudoBoard = {
+  const expectedBoard: GS["B"] = {
     players: {
       [p0]: {
         isAlive: true,
@@ -67,7 +59,7 @@ test("1st player bets", () => {
   expect(match.board).toEqual(expectedBoard);
 
   // The first player makes a bet.
-  match.makeMove(p0, bet({ numDice: 1, diceValue: 2 }));
+  match.makeMove(p0, "bet", { numDice: 1, diceValue: 2 });
 
   expectedBoard.bet = [1, 2];
   expectedBoard.currentPlayerIndex = 1;
@@ -80,7 +72,7 @@ test("someone wins", () => {
   const random = new RandomMock();
   random.next(["userId-0", "userId-1"]);
   const match = new Match({
-    gameDef: game,
+    game,
     numPlayers: 2,
     random,
   });
@@ -92,11 +84,11 @@ test("someone wins", () => {
   for (let i = 0; i < 5; i++) {
     expect(match.board.winner).toEqual(undefined);
     expect(match.board.players[p0].isAlive).toBe(true);
-    match.makeMove(p0, bet({ numDice: 11, diceValue: 2 }));
-    match.makeMove(p1, call());
+    match.makeMove(p0, "bet", { numDice: 11, diceValue: 2 });
+    match.makeMove(p1, "call");
     expect(match.playerboards[p0].numDice).toEqual(4 - i);
-    match.makeMove(p0, roll());
-    match.makeMove(p1, roll());
+    match.makeMove(p0, "roll");
+    match.makeMove(p1, "roll");
   }
 
   // At this point the first player has lost all his dice and the second one should be
@@ -111,7 +103,7 @@ test("palifico with 3 players, no palifico with 2 players", () => {
   const random = new RandomMock();
   random.next(["userId-0", "userId-1", "userId-2"]);
   const match = new Match({
-    gameDef: game,
+    game,
     numPlayers: 3,
     matchSettings: { startNumDice: "2" },
     random,
@@ -119,29 +111,29 @@ test("palifico with 3 players, no palifico with 2 players", () => {
 
   const [p0, p1, p2] = match.board.playerOrder;
 
-  match.makeMove(p0, bet({ numDice: 10, diceValue: 3 }));
-  match.makeMove(p1, call());
-  match.makeMove(p0, roll());
-  match.makeMove(p1, roll());
-  match.makeMove(p2, roll());
+  match.makeMove(p0, "bet", { numDice: 10, diceValue: 3 });
+  match.makeMove(p1, "call");
+  match.makeMove(p0, "roll");
+  match.makeMove(p1, "roll");
+  match.makeMove(p2, "roll");
 
   // 3 players left, that's a case of palifico.
   expect(match.board.palifico).toEqual(true);
 
   // Have him lose again.
-  match.makeMove(p0, bet({ numDice: 10, diceValue: 3 }));
-  match.makeMove(p1, call());
-  match.makeMove(p0, roll());
-  match.makeMove(p1, roll());
-  match.makeMove(p2, roll());
+  match.makeMove(p0, "bet", { numDice: 10, diceValue: 3 });
+  match.makeMove(p1, "call");
+  match.makeMove(p0, "roll");
+  match.makeMove(p1, "roll");
+  match.makeMove(p2, "roll");
 
   expect(match.board.palifico).toEqual(false);
 
   // Another player gets to 1 die. This time there are 2 players left so no palifico.
-  match.makeMove(p1, bet({ numDice: 10, diceValue: 3 }));
-  match.makeMove(p2, call());
-  match.makeMove(p1, roll());
-  match.makeMove(p2, roll());
+  match.makeMove(p1, "bet", { numDice: 10, diceValue: 3 });
+  match.makeMove(p2, "call");
+  match.makeMove(p1, "roll");
+  match.makeMove(p2, "roll");
 
   expect(match.board.palifico).toEqual(false);
 });
@@ -158,7 +150,7 @@ test.each([
   "next player when someone is dead (order=%s)",
   (playerOrderInt: number[]) => {
     const match = new Match({
-      gameDef: game,
+      game,
       numPlayers: 3,
     });
     const playerOrder = playerOrderInt.map((x) => `userId-${x}`);
@@ -171,18 +163,18 @@ test.each([
     match.playerboards[p1].diceValues = [2];
 
     // P0 bets something reasonable.
-    match.makeMove(p0, bet({ numDice: 1, diceValue: 2 }));
+    match.makeMove(p0, "bet", { numDice: 1, diceValue: 2 });
     // P1 bets something impossible.
-    match.makeMove(p1, bet({ numDice: 99, diceValue: 2 }));
+    match.makeMove(p1, "bet", { numDice: 99, diceValue: 2 });
 
     // P2 calls bullshit.
-    match.makeMove(p2, call());
+    match.makeMove(p2, "call");
 
     expect(match.board.step).toEqual("revealed");
 
     // P0 and P2 roll their dice (not P1 because he is now dead).
-    match.makeMove(p0, roll());
-    match.makeMove(p2, roll());
+    match.makeMove(p0, "roll");
+    match.makeMove(p2, "roll");
 
     // This should make the game in mode 'play'
     expect(match.board.step).toEqual("play");
@@ -202,14 +194,14 @@ test("state after call is ok", () => {
   random.next([2, 2]);
 
   const match = new Match({
-    gameDef: game,
+    game,
     numPlayers: 2,
     random,
   });
 
   const [p0, p1] = match.meta.players.allIds;
 
-  const expectedBoard: DudoBoard = {
+  const expectedBoard: GS["B"] = {
     players: {
       [p0]: {
         isAlive: true,
@@ -232,8 +224,8 @@ test("state after call is ok", () => {
 
   expect(match.board).toEqual(expectedBoard);
 
-  match.makeMove(p0, bet({ numDice: 4, diceValue: 2 }));
-  match.makeMove(p1, call());
+  match.makeMove(p0, "bet", { numDice: 4, diceValue: 2 });
+  match.makeMove(p1, "call");
 
   expectedBoard.players[p0].hasRolled = false;
   expectedBoard.players[p1].hasRolled = false;
@@ -344,7 +336,7 @@ test("wilds don't count in palifico", () => {
   const random = new RandomMock();
 
   const match = new Match({
-    gameDef: game,
+    game,
     numPlayers: 3,
     matchSettings: { startNumDice: "3" },
     random,
@@ -353,23 +345,23 @@ test("wilds don't count in palifico", () => {
   const [p0, p1, p2] = match.board.playerOrder;
 
   // p0 loses a first die.
-  match.makeMove(p0, bet({ numDice: 10, diceValue: 2 }));
-  match.makeMove(p1, call());
-  match.makeMove(p0, roll());
-  match.makeMove(p1, roll());
-  match.makeMove(p2, roll());
+  match.makeMove(p0, "bet", { numDice: 10, diceValue: 2 });
+  match.makeMove(p1, "call");
+  match.makeMove(p0, "roll");
+  match.makeMove(p1, "roll");
+  match.makeMove(p2, "roll");
 
   // p1 loses a second die.
-  match.makeMove(p0, bet({ numDice: 10, diceValue: 2 }));
-  match.makeMove(p1, call());
+  match.makeMove(p0, "bet", { numDice: 10, diceValue: 2 });
+  match.makeMove(p1, "call");
 
   // Palifico round: now make sure wilds don't count in the total.
   random.next([1, 2, 3]);
   random.next([1, 2, 3]);
   random.next([1]);
-  match.makeMove(p0, roll());
-  match.makeMove(p1, roll());
-  match.makeMove(p2, roll());
+  match.makeMove(p0, "roll");
+  match.makeMove(p1, "roll");
+  match.makeMove(p2, "roll");
 
   // Sanity check
   expect(match.playerboards[p0].diceValues).toEqual([1, 2, 3]);
@@ -379,8 +371,8 @@ test("wilds don't count in palifico", () => {
   // We should be in palifico mode.
   expect(match.board.palifico).toEqual(true);
 
-  match.makeMove(p0, bet({ numDice: 2, diceValue: 3 }));
-  match.makeMove(p1, call());
+  match.makeMove(p0, "bet", { numDice: 2, diceValue: 3 });
+  match.makeMove(p1, "call");
 
   // Since there are no wilds we should have 2 3s.
   expect(match.board.actualCount).toEqual(2);
@@ -390,7 +382,7 @@ test("wilds don't count in palifico", () => {
 
 test("its your turn", () => {
   const match = new Match({
-    gameDef: game,
+    game,
     numPlayers: 3,
     matchSettings: { startNumDice: "3" },
   });
@@ -415,78 +407,78 @@ test("its your turn", () => {
 
   checkItsTheirTurn(p0);
 
-  match.makeMove(p0, bet({ numDice: 10, diceValue: 2 }));
+  match.makeMove(p0, "bet", { numDice: 10, diceValue: 2 });
 
   checkItsTheirTurn(p1);
 
   // p0 loses a die.
-  match.makeMove(p1, call());
+  match.makeMove(p1, "call");
 
   checkItsTheirTurn("all");
 
-  match.makeMove(p0, roll());
+  match.makeMove(p0, "roll");
   checkItsTheirTurn([p1, p2]);
-  match.makeMove(p1, roll());
+  match.makeMove(p1, "roll");
   checkItsTheirTurn(p2);
-  match.makeMove(p2, roll());
+  match.makeMove(p2, "roll");
 
   checkItsTheirTurn(p0);
 
-  match.makeMove(p0, bet({ numDice: 10, diceValue: 2 }));
+  match.makeMove(p0, "bet", { numDice: 10, diceValue: 2 });
 
   checkItsTheirTurn(p1);
 
-  match.makeMove(p1, bet({ numDice: 11, diceValue: 2 }));
+  match.makeMove(p1, "bet", { numDice: 11, diceValue: 2 });
 
   checkItsTheirTurn(p2);
 
   // p1 loses a die
-  match.makeMove(p2, call());
+  match.makeMove(p2, "call");
 
   checkItsTheirTurn("all");
 
-  match.makeMove(p2, roll());
+  match.makeMove(p2, "roll");
   checkItsTheirTurn([p0, p1]);
-  match.makeMove(p0, roll());
+  match.makeMove(p0, "roll");
   checkItsTheirTurn(p1);
-  match.makeMove(p1, roll());
+  match.makeMove(p1, "roll");
 
   checkItsTheirTurn(p1);
 
-  match.makeMove(p1, bet({ numDice: 10, diceValue: 2 }));
+  match.makeMove(p1, "bet", { numDice: 10, diceValue: 2 });
   // p1 loses a die
-  match.makeMove(p2, call());
-  match.makeMove(p0, roll());
-  match.makeMove(p1, roll());
-  match.makeMove(p2, roll());
+  match.makeMove(p2, "call");
+  match.makeMove(p0, "roll");
+  match.makeMove(p1, "roll");
+  match.makeMove(p2, "roll");
 
   checkItsTheirTurn(p1);
 
-  match.makeMove(p1, bet({ numDice: 10, diceValue: 2 }));
+  match.makeMove(p1, "bet", { numDice: 10, diceValue: 2 });
   // p1 dies
-  match.makeMove(p2, call());
-  match.makeMove(p0, roll());
-  match.makeMove(p1, roll());
-  match.makeMove(p2, roll());
+  match.makeMove(p2, "call");
+  match.makeMove(p0, "roll");
+  match.makeMove(p1, "roll");
+  match.makeMove(p2, "roll");
 
   checkItsTheirTurn(p2);
 
-  match.makeMove(p2, bet({ numDice: 1, diceValue: 2 }));
-  match.makeMove(p0, bet({ numDice: 10, diceValue: 2 }));
+  match.makeMove(p2, "bet", { numDice: 1, diceValue: 2 });
+  match.makeMove(p0, "bet", { numDice: 10, diceValue: 2 });
   // p0 loses a die
-  match.makeMove(p2, call());
+  match.makeMove(p2, "call");
 
   checkItsTheirTurn([p0, p2]);
-  match.makeMove(p0, roll());
+  match.makeMove(p0, "roll");
   checkItsTheirTurn(p2);
-  match.makeMove(p2, roll());
+  match.makeMove(p2, "roll");
 
   checkItsTheirTurn(p0);
 
-  match.makeMove(p0, bet({ numDice: 10, diceValue: 2 }));
+  match.makeMove(p0, "bet", { numDice: 10, diceValue: 2 });
   checkItsTheirTurn(p2);
   // p0 loses its last die, p2 wins.
-  match.makeMove(p2, call());
+  match.makeMove(p2, "call");
 
   // The match is over!
   checkItsTheirTurn([]);
@@ -496,7 +488,7 @@ test.each([[2], [3], [4]])("ranks for everyone %s", (numPlayers: number) => {
   const numDice = 3;
 
   const match = new Match({
-    gameDef: game,
+    game,
     numPlayers,
     matchSettings: { startNumDice: numDice.toString() },
   });
@@ -508,12 +500,12 @@ test.each([[2], [3], [4]])("ranks for everyone %s", (numPlayers: number) => {
     const nextP = players[i + 1];
     for (let j = 0; j < numDice; j++) {
       // The current player bids to high.
-      match.makeMove(p, bet({ numDice: 123, diceValue: 2 }));
+      match.makeMove(p, "bet", { numDice: 123, diceValue: 2 });
       // The next player calls Dudo.
-      match.makeMove(nextP, call());
+      match.makeMove(nextP, "call");
       // All the non-dead players roll
       for (let k = i; k < players.length; k++) {
-        match.makeMove(players[k], roll());
+        match.makeMove(players[k], "roll");
       }
     }
   }

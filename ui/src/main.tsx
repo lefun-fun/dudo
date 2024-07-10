@@ -1,12 +1,12 @@
 import { render } from "@lefun/dev-server";
-import { DudoBoard, DudoPlayerboard, game } from "dudo-game";
+import { game } from "dudo-game";
 
 // @ts-expect-error abc
 import { messages as en } from "./locales/en/messages";
 // @ts-expect-error abc
 import { messages as fr } from "./locales/fr/messages";
 
-render<DudoBoard, DudoPlayerboard>({
+render({
   board: async () => {
     // @ts-expect-error the import is there even if TS does not see it!
     await import("./index.css");
@@ -19,7 +19,7 @@ render<DudoBoard, DudoPlayerboard>({
     const { default: Rules } = await import("./Rules");
     return <Rules />;
   },
-  gameDef: game,
+  game,
   matchSettings: { startNumDice: "3" },
   messages: { en, fr },
 });
