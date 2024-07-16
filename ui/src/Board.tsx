@@ -12,6 +12,7 @@ import {
   playSound,
   Selector,
   useDispatch,
+  useIsPlayer,
   useSelector as _useSelector,
   useSelectorShallow as _useSelectorShallow,
   useUsername,
@@ -853,6 +854,7 @@ const Board = () => {
   const numDice = useSelector((state) => state.board.startNumDice);
 
   const numPlayers = playerOrder.length;
+  const isPlayer = useIsPlayer();
 
   useEffect(() => {
     const root = document.documentElement;
@@ -881,9 +883,11 @@ const Board = () => {
             <WildsInfo />
           </div>
         </div>
-        <div className="h-32 vsm:h-36">
-          <Buttons />
-        </div>
+        {isPlayer && (
+          <div className="h-32 vsm:h-36">
+            <Buttons />
+          </div>
+        )}
       </div>
       <PlaySound />
     </div>
