@@ -18,8 +18,6 @@
     "test": "pnpm vitest run src"
   },
   "dependencies": {
-    "@lefun/core": "2.0.0",
-    "@lefun/game": "2.0.0",
     "lodash-es": "^4.17.21"
   },
   "devDependencies": {
@@ -34,6 +32,12 @@
     "rollup-plugin-typescript2": "^0.31.1",
     "tslib": "^2.3.1",
     "typescript": "^5.4.5",
-    "vitest": "^1.2.1"
+    "vitest": "^1.2.1",
+    "@lefun/core": "2.0.0",
+    "@lefun/game": "2.0.0"
+  },
+  "peerDependencies": {
+    "@lefun/core": "2.0.0",
+    "@lefun/game": "2.0.0"
   }
 }

@@ -17,16 +17,16 @@ importers:
 
   game:
     dependencies:
+      lodash-es:
+        specifier: ^4.17.21
+        version: 4.17.21
+    devDependencies:
       '@lefun/core':
         specifier: 2.0.0
         version: 2.0.0
       '@lefun/game':
         specifier: 2.0.0
         version: 2.0.0(@lefun/core@2.0.0)
-      lodash-es:
-        specifier: ^4.17.21
-        version: 4.17.21
-    devDependencies:
       '@rollup/plugin-commonjs':
         specifier: ^21.0.1
         version: 21.1.0(rollup@2.79.1)
@@ -90,7 +90,7 @@ importers:
         version: 2.0.0
       '@lefun/dev-server':
         specifier: 2.0.0
-        version: 2.0.0(@lefun/core@2.0.0)(@lefun/game@2.0.0(@lefun/core@2.0.0))(@lefun/ui@2.0.0(@lefun/core@2.0.0)(@lefun/game@2.0.0(@lefun/core@2.0.0))(@types/react@18.3.3)(immer@10.1.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@lingui/core@4.11.2)(@lingui/react@4.11.1(react@18.3.1))(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        version: 2.0.0(@lefun/core@2.0.0)(@lefun/game@2.0.0(@lefun/core@2.0.0))(@lefun/ui@2.0.0(@lefun/core@2.0.0)(@lefun/game@2.0.0(@lefun/core@2.0.0))(@types/react@18.3.3)(immer@10.1.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@lingui/core@4.11.2)(@lingui/react@4.11.2(react@18.3.1))(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@lefun/game':
         specifier: 2.0.0
         version: 2.0.0(@lefun/core@2.0.0)
@@ -99,7 +99,7 @@ importers:
         version: 2.0.0(@lefun/core@2.0.0)(@lefun/game@2.0.0(@lefun/core@2.0.0))(@types/react@18.3.3)(immer@10.1.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@lefun/ui-testing':
         specifier: 2.0.0
-        version: 2.0.0(@lefun/ui@2.0.0(@lefun/core@2.0.0)(@lefun/game@2.0.0(@lefun/core@2.0.0))(@types/react@18.3.3)(immer@10.1.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@lingui/core@4.11.2)(@lingui/react@4.11.1(react@18.3.1))(@testing-library/dom@10.1.0)(@types/react-dom@18.3.0)(@types/react@18.3.3)(immer@10.1.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        version: 2.0.0(@lefun/ui@2.0.0(@lefun/core@2.0.0)(@lefun/game@2.0.0(@lefun/core@2.0.0))(@types/react@18.3.3)(immer@10.1.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@lingui/core@4.11.2)(@lingui/react@4.11.2(react@18.3.1))(@testing-library/dom@10.1.0)(@types/react-dom@18.3.0)(@types/react@18.3.3)(immer@10.1.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@lingui/cli':
         specifier: ^4.11.1
         version: 4.11.1(typescript@5.4.5)
@@ -108,10 +108,10 @@ importers:
         version: 4.11.1(typescript@5.4.5)
       '@lingui/macro':
         specifier: ^4.11.1
-        version: 4.11.1(@lingui/react@4.11.1(react@18.3.1))(babel-plugin-macros@3.1.0)(typescript@5.4.5)
+        version: 4.11.1(@lingui/react@4.11.2(react@18.3.1))(babel-plugin-macros@3.1.0)(typescript@5.4.5)
       '@lingui/react':
-        specifier: ^4.11.1
-        version: 4.11.1(react@18.3.1)
+        specifier: ^4.11.2
+        version: 4.11.2(react@18.3.1)
       '@lingui/vite-plugin':
         specifier: ^4.11.1
         version: 4.11.1(typescript@5.4.5)(vite@5.2.12(@types/node@20.14.2))
@@ -763,8 +763,8 @@ packages:
     resolution: {integrity: sha512-3oJk7ZKExk4NVa4d3CM0z0iNqIokaFOWeu7lYVzu0oEX7DP6OxNjlCAtObIhJCB0FdIPz8sXxhDkyDHFj+eIvw==}
     engines: {node: '>=16.0.0'}
 
-  '@lingui/react@4.11.1':
-    resolution: {integrity: sha512-pqnAhp1gYJKz7dgDAIb1G1oaBq7OcuQJrXDq/ekrLqSBLozlpPskY5bmv20ygtjgoUiVOlD0+32UWDLafasc4w==}
+  '@lingui/react@4.11.2':
+    resolution: {integrity: sha512-OKHCg3yPW2xhYWoY2kOz+eP7qpdkab+4tERUvJ9QJ9bzQ6OnPLCagaRftB3nqdKuWzKoA5F2VG2QLUhF7DjpGA==}
     engines: {node: '>=16.0.0'}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -3594,13 +3594,13 @@ snapshots:
 
   '@lefun/core@2.0.0': {}
 
-  '@lefun/dev-server@2.0.0(@lefun/core@2.0.0)(@lefun/game@2.0.0(@lefun/core@2.0.0))(@lefun/ui@2.0.0(@lefun/core@2.0.0)(@lefun/game@2.0.0(@lefun/core@2.0.0))(@types/react@18.3.3)(immer@10.1.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@lingui/core@4.11.2)(@lingui/react@4.11.1(react@18.3.1))(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@lefun/dev-server@2.0.0(@lefun/core@2.0.0)(@lefun/game@2.0.0(@lefun/core@2.0.0))(@lefun/ui@2.0.0(@lefun/core@2.0.0)(@lefun/game@2.0.0(@lefun/core@2.0.0))(@types/react@18.3.3)(immer@10.1.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@lingui/core@4.11.2)(@lingui/react@4.11.2(react@18.3.1))(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@lefun/core': 2.0.0
       '@lefun/game': 2.0.0(@lefun/core@2.0.0)
       '@lefun/ui': 2.0.0(@lefun/core@2.0.0)(@lefun/game@2.0.0(@lefun/core@2.0.0))(@types/react@18.3.3)(immer@10.1.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@lingui/core': 4.11.2
-      '@lingui/react': 4.11.1(react@18.3.1)
+      '@lingui/react': 4.11.2(react@18.3.1)
       classnames: 2.5.1
       immer: 10.1.1
       json-edit-react: 1.15.0(react@18.3.1)
@@ -3615,11 +3615,11 @@ snapshots:
       '@lefun/core': 2.0.0
       lodash-es: 4.17.21
 
-  '@lefun/ui-testing@2.0.0(@lefun/ui@2.0.0(@lefun/core@2.0.0)(@lefun/game@2.0.0(@lefun/core@2.0.0))(@types/react@18.3.3)(immer@10.1.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@lingui/core@4.11.2)(@lingui/react@4.11.1(react@18.3.1))(@testing-library/dom@10.1.0)(@types/react-dom@18.3.0)(@types/react@18.3.3)(immer@10.1.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@lefun/ui-testing@2.0.0(@lefun/ui@2.0.0(@lefun/core@2.0.0)(@lefun/game@2.0.0(@lefun/core@2.0.0))(@types/react@18.3.3)(immer@10.1.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@lingui/core@4.11.2)(@lingui/react@4.11.2(react@18.3.1))(@testing-library/dom@10.1.0)(@types/react-dom@18.3.0)(@types/react@18.3.3)(immer@10.1.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@lefun/ui': 2.0.0(@lefun/core@2.0.0)(@lefun/game@2.0.0(@lefun/core@2.0.0))(@types/react@18.3.3)(immer@10.1.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@lingui/core': 4.11.2
-      '@lingui/react': 4.11.1(react@18.3.1)
+      '@lingui/react': 4.11.2(react@18.3.1)
       '@testing-library/react': 16.0.0(@testing-library/dom@10.1.0)(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
@@ -3697,7 +3697,7 @@ snapshots:
 
   '@lingui/core@4.11.2':
     dependencies:
-      '@babel/runtime': 7.24.8
+      '@babel/runtime': 7.24.7
       '@lingui/message-utils': 4.11.2
       unraw: 3.0.0
 
@@ -3710,14 +3710,14 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
-  '@lingui/macro@4.11.1(@lingui/react@4.11.1(react@18.3.1))(babel-plugin-macros@3.1.0)(typescript@5.4.5)':
+  '@lingui/macro@4.11.1(@lingui/react@4.11.2(react@18.3.1))(babel-plugin-macros@3.1.0)(typescript@5.4.5)':
     dependencies:
       '@babel/runtime': 7.24.7
       '@babel/types': 7.24.7
       '@lingui/conf': 4.11.1(typescript@5.4.5)
       '@lingui/core': 4.11.1
       '@lingui/message-utils': 4.11.1
-      '@lingui/react': 4.11.1(react@18.3.1)
+      '@lingui/react': 4.11.2(react@18.3.1)
       babel-plugin-macros: 3.1.0
     transitivePeerDependencies:
       - typescript
@@ -3732,10 +3732,10 @@ snapshots:
       '@messageformat/parser': 5.1.0
       js-sha256: 0.10.1
 
-  '@lingui/react@4.11.1(react@18.3.1)':
+  '@lingui/react@4.11.2(react@18.3.1)':
     dependencies:
       '@babel/runtime': 7.24.7
-      '@lingui/core': 4.11.1
+      '@lingui/core': 4.11.2
       react: 18.3.1
 
   '@lingui/vite-plugin@4.11.1(typescript@5.4.5)(vite@5.2.12(@types/node@20.14.2))':

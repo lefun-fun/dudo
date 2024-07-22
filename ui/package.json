@@ -34,7 +34,7 @@
     "@lingui/cli": "^4.11.1",
     "@lingui/conf": "^4.11.1",
     "@lingui/macro": "^4.11.1",
-    "@lingui/react": "^4.11.1",
+    "@lingui/react": "^4.11.2",
     "@lingui/vite-plugin": "^4.11.1",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-commonjs": "^21.0.1",
