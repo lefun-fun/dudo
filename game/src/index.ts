@@ -171,206 +171,200 @@ const incrementCurrentPlayer = (board: DudoBoard): number => {
   return newPlayerIndex;
 };
 
-const bet: PlayerMove<DudoGameState, BetPayload> =
-  //
-  {
-    canDo(options) {
-      const { userId, board, playerboard, payload } = options;
-      const { numDice, diceValue } = payload;
+const bet: PlayerMove<DudoGameState, BetPayload> = {
+  canDo(options) {
+    const { userId, board, playerboard, payload } = options;
+    const { numDice, diceValue } = payload;
 
-      const { palifico } = board;
-      const { numDice: currentPlayerNumDice } = playerboard;
+    const { palifico } = board;
+    const { numDice: currentPlayerNumDice } = playerboard;
 
-      const valid = isNewBetValid({
-        oldBet: board.bet,
-        newBet: [numDice, diceValue],
-        palifico,
-        currentPlayerNumDice,
+    const valid = isNewBetValid({
+      oldBet: board.bet,
+      newBet: [numDice, diceValue],
+      palifico,
+      currentPlayerNumDice,
+    });
+    return isCurrentPlayer(userId, board) && board.step === "play" && valid;
+  },
+  executeNow({ board, payload }) {
+    const { numDice, diceValue } = payload;
+    board.bet = [numDice, diceValue];
+    incrementCurrentPlayer(board);
+  },
+  execute({ itsYourTurn, board }) {
+    itsYourTurn({
+      userIds: [board.playerOrder[board.currentPlayerIndex]],
+    });
+  },
+};
+
+const call: PlayerMove<DudoGameState> = {
+  canDo(options) {
+    const { userId, board } = options;
+
+    return (
+      isCurrentPlayer(userId, board) &&
+      board.bet != null &&
+      board.step === "play"
+    );
+  },
+  execute({ board, playerboards, itsYourTurn, endMatch }) {
+    const [betQty, betValue] = board.bet!;
+
+    const {
+      playerOrder,
+      previousPlayerIndex,
+      currentPlayerIndex,
+      players,
+      palifico,
+    } = board;
+
+    // Count if we have enough dice of the right value.
+    let actualCount = 0;
+    Object.values(playerboards).forEach((pb) => {
+      pb.diceValues!.forEach((diceValue) => {
+        // "1"s are wild. This rule also works when we are betting wilds!
+        if (diceValue === betValue || (!palifico && diceValue === 1)) {
+          actualCount++;
+        }
       });
-      return isCurrentPlayer(userId, board) && board.step === "play" && valid;
-    },
-    executeNow({ board, payload }) {
-      const { numDice, diceValue } = payload;
-      board.bet = [numDice, diceValue];
-      incrementCurrentPlayer(board);
-    },
-    execute({ itsYourTurn, board }) {
+    });
+
+    let loser: UserId;
+    // Was the previous bet lower?
+    if (actualCount >= betQty) {
+      // If there were enough dice matching, "caller" loses.
+      loser = playerOrder[currentPlayerIndex];
+    } else {
+      // If there were not enough then the previous player loses.
+      loser = playerOrder[previousPlayerIndex!];
+    }
+
+    // If there is only one person alive, he wins.
+    let winner;
+    const alivePlayers = Object.entries(players)
+      .map(([userId, info]) => {
+        return { userId, info };
+      })
+      .filter(({ userId, info }) => {
+        // For the loser we will treat them as not alive if it was their last dice.
+        if (userId === loser && playerboards[userId].numDice === 1) {
+          return false;
+        }
+        return info.isAlive;
+      });
+
+    if (alivePlayers.length === 1) {
+      winner = alivePlayers[0].userId;
+    }
+
+    // The losing player looses a die.
+    playerboards[loser].numDice--;
+
+    board.step = "revealed";
+    board.loser = loser;
+    board.winner = winner;
+    board.actualCount = actualCount;
+
+    // Copy the dice from the playerboards to the board.
+    for (const [userId, playerboard] of Object.entries(playerboards)) {
+      board.players[userId].diceValues = playerboard.diceValues;
+    }
+
+    if (playerboards[loser].numDice === 0) {
+      board.players[loser].isAlive = false;
+      board.deathList.push(loser);
+    }
+
+    Object.values(board.players).forEach((info) => {
+      info.hasRolled = false;
+    });
+
+    // The turn is over, all the people alive must roll.
+    itsYourTurn({ userIds: alivePlayers.map((p) => p.userId) });
+
+    if (winner != null) {
+      const scores: Record<UserId, number> = {};
+      scores[winner] = 0;
+      board.deathList.forEach((userId, i) => {
+        scores[userId] = board.deathList.length - i;
+      });
+      endMatch({ scores });
+    }
+  },
+};
+
+const roll: PlayerMove<DudoGameState> = {
+  canDo(options) {
+    const { board } = options;
+    return board.step === "revealed";
+  },
+  executeNow({ userId, board, playerboard }) {
+    playerboard.isRolling = true;
+    board.players[userId].hasRolled = true;
+  },
+  execute({ board, playerboards, userId, random, itsYourTurn }) {
+    const { numDice } = playerboards[userId];
+
+    // Roll the dice for the player that is ready.
+    const diceValues = random.d6(numDice);
+    playerboards[userId].diceValues = diceValues;
+    playerboards[userId].isRolling = false;
+
+    // Check if everyone has rolled (or is dead!), in which case we go to the next turn.
+    const numNotReady = Object.values(board.players).filter(
+      (info) => info.isAlive && !info.hasRolled,
+    ).length;
+
+    if (numNotReady === 0) {
+      // Is the next round a palifico round?
+      // In the (mainstream?) rules, only the first time you hit 1 die do you get a
+      // palifico round. This is what this does!
+      // We need at least 2 players for that rule to apply.
+      const { loser, playerOrder, players } = board;
+      const palifico =
+        playerboards[loser!].numDice === 1 &&
+        Object.values(board.players).filter((p) => p.isAlive).length > 2;
+
+      board.step = "play";
+      board.palifico = palifico;
+
+      // The loser is the next player, unless he's dead, then we take the next available
+      // player.
+      board.currentPlayerIndex = playerOrder.indexOf(loser!);
+
+      if (!players[loser!].isAlive) {
+        incrementCurrentPlayer(board);
+      }
+      // If incrementCurrentPlayer is called it will set the previousPlayerIndex.
+      board.previousPlayerIndex = undefined;
+
+      Object.values(players).forEach((info) => {
+        info.diceValues = undefined;
+      });
+
+      // Only after the rolls do we properly clear the loser's last die.
+      if (loser) {
+        if (playerboards[loser].numDice === 0) {
+          playerboards[loser].diceValues = [];
+        }
+      }
+
+      board.loser = undefined;
+      board.bet = undefined;
+
+      // `everyoneHasRolled` has changed the current player
       itsYourTurn({
         userIds: [board.playerOrder[board.currentPlayerIndex]],
       });
-    },
-  };
-
-const call: PlayerMove<DudoGameState> =
-  //
-  {
-    canDo(options) {
-      const { userId, board } = options;
-
-      return (
-        isCurrentPlayer(userId, board) &&
-        board.bet != null &&
-        board.step === "play"
-      );
-    },
-    execute({ board, playerboards, itsYourTurn, endMatch }) {
-      const [betQty, betValue] = board.bet!;
-
-      const {
-        playerOrder,
-        previousPlayerIndex,
-        currentPlayerIndex,
-        players,
-        palifico,
-      } = board;
-
-      // Count if we have enough dice of the right value.
-      let actualCount = 0;
-      Object.values(playerboards).forEach((pb) => {
-        pb.diceValues!.forEach((diceValue) => {
-          // "1"s are wild. This rule also works when we are betting wilds!
-          if (diceValue === betValue || (!palifico && diceValue === 1)) {
-            actualCount++;
-          }
-        });
+    } else {
+      itsYourTurn({
+        overUserIds: [userId],
       });
-
-      let loser: UserId;
-      // Was the previous bet lower?
-      if (actualCount >= betQty) {
-        // If there were enough dice matching, "caller" loses.
-        loser = playerOrder[currentPlayerIndex];
-      } else {
-        // If there were not enough then the previous player loses.
-        loser = playerOrder[previousPlayerIndex!];
-      }
-
-      // If there is only one person alive, he wins.
-      let winner;
-      const alivePlayers = Object.entries(players)
-        .map(([userId, info]) => {
-          return { userId, info };
-        })
-        .filter(({ userId, info }) => {
-          // For the loser we will treat them as not alive if it was their last dice.
-          if (userId === loser && playerboards[userId].numDice === 1) {
-            return false;
-          }
-          return info.isAlive;
-        });
-
-      if (alivePlayers.length === 1) {
-        winner = alivePlayers[0].userId;
-      }
-
-      // The losing player looses a die.
-      playerboards[loser].numDice--;
-
-      board.step = "revealed";
-      board.loser = loser;
-      board.winner = winner;
-      board.actualCount = actualCount;
-
-      // Copy the dice from the playerboards to the board.
-      for (const [userId, playerboard] of Object.entries(playerboards)) {
-        board.players[userId].diceValues = playerboard.diceValues;
-      }
-
-      if (playerboards[loser].numDice === 0) {
-        board.players[loser].isAlive = false;
-        board.deathList.push(loser);
-      }
-
-      Object.values(board.players).forEach((info) => {
-        info.hasRolled = false;
-      });
-
-      // The turn is over, all the people alive must roll.
-      itsYourTurn({ userIds: alivePlayers.map((p) => p.userId) });
-
-      if (winner != null) {
-        const scores: Record<UserId, number> = {};
-        scores[winner] = 0;
-        board.deathList.forEach((userId, i) => {
-          scores[userId] = board.deathList.length - i;
-        });
-        endMatch({ scores });
-      }
-    },
-  };
-
-const roll: PlayerMove<DudoGameState> =
-  //
-  {
-    canDo(options) {
-      const { board } = options;
-      return board.step === "revealed";
-    },
-    executeNow({ userId, board, playerboard }) {
-      playerboard.isRolling = true;
-      board.players[userId].hasRolled = true;
-    },
-    execute({ board, playerboards, userId, random, itsYourTurn }) {
-      const { numDice } = playerboards[userId];
-
-      // Roll the dice for the player that is ready.
-      const diceValues = random.d6(numDice);
-      playerboards[userId].diceValues = diceValues;
-      playerboards[userId].isRolling = false;
-
-      // Check if everyone has rolled (or is dead!), in which case we go to the next turn.
-      const numNotReady = Object.values(board.players).filter(
-        (info) => info.isAlive && !info.hasRolled,
-      ).length;
-
-      if (numNotReady === 0) {
-        // Is the next round a palifico round?
-        // In the (mainstream?) rules, only the first time you hit 1 die do you get a
-        // palifico round. This is what this does!
-        // We need at least 2 players for that rule to apply.
-        const { loser, playerOrder, players } = board;
-        const palifico =
-          playerboards[loser!].numDice === 1 &&
-          Object.values(board.players).filter((p) => p.isAlive).length > 2;
-
-        board.step = "play";
-        board.palifico = palifico;
-
-        // The loser is the next player, unless he's dead, then we take the next available
-        // player.
-        board.currentPlayerIndex = playerOrder.indexOf(loser!);
-
-        if (!players[loser!].isAlive) {
-          incrementCurrentPlayer(board);
-        }
-        // If incrementCurrentPlayer is called it will set the previousPlayerIndex.
-        board.previousPlayerIndex = undefined;
-
-        Object.values(players).forEach((info) => {
-          info.diceValues = undefined;
-        });
-
-        // Only after the rolls do we properly clear the loser's last die.
-        if (loser) {
-          if (playerboards[loser].numDice === 0) {
-            playerboards[loser].diceValues = [];
-          }
-        }
-
-        board.loser = undefined;
-        board.bet = undefined;
-
-        // `everyoneHasRolled` has changed the current player
-        itsYourTurn({
-          userIds: [board.playerOrder[board.currentPlayerIndex]],
-        });
-      } else {
-        itsYourTurn({
-          overUserIds: [userId],
-        });
-      }
-    },
-  };
+    }
+  },
+};
 
 const gamePlayerSettings: GamePlayerSettings = {
   color: {
