@@ -138,7 +138,7 @@ test("palifico with 3 players, no palifico with 2 players", () => {
   expect(match.board.palifico).toEqual(false);
 });
 
-// I was some bugs depending on the order so I'm testing all of them.
+// I saw some bugs depending on the order so I'm testing all of them.
 test.each([
   [[0, 1, 2]],
   [[0, 2, 1]],
@@ -512,8 +512,9 @@ test.each([[2], [3], [4]])("ranks for everyone %s", (numPlayers: number) => {
 
   expect(match.matchHasEnded).toBe(true);
 
-  players.forEach((p, i) => {
-    expect(match.meta.players.byId[p].rank).toEqual(players.length - i - 1);
-    expect(match.meta.players.byId[p].score).toEqual(players.length - i - 1);
+  players.forEach((userId, i) => {
+    expect(match.playerStats[userId]).toEqual([
+      { key: "rank", value: players.length - i - 1 },
+    ]);
   });
 });

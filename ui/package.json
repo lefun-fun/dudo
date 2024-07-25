@@ -26,11 +26,11 @@
   },
   "devDependencies": {
     "@babel/preset-react": "^7.24.7",
-    "@lefun/core": "2.0.0",
-    "@lefun/dev-server": "2.0.0",
-    "@lefun/game": "2.0.0",
-    "@lefun/ui": "2.0.0",
-    "@lefun/ui-testing": "2.0.0",
+    "@lefun/core": "2.3.0-alpha.0",
+    "@lefun/dev-server": "2.3.0-alpha.0",
+    "@lefun/game": "2.3.0-alpha.0",
+    "@lefun/ui": "2.3.0-alpha.0",
+    "@lefun/ui-testing": "2.3.0-alpha.0",
     "@lingui/cli": "^4.11.1",
     "@lingui/conf": "^4.11.1",
     "@lingui/macro": "^4.11.1",
@@ -63,8 +63,8 @@
     "tailwindcss": "^2.2.19",
     "tslib": "^2.3.1",
     "typescript": "^5.4.5",
-    "vite": "^5.2.0",
-    "vitest": "^1.2.1"
+    "vite": "^5.4.1",
+    "vitest": "^2.0.5"
   },
   "dependencies": {
     "@react-spring/web": "^9.7.3",
@@ -74,9 +74,9 @@
     "tippy.js": "^6.3.1"
   },
   "peerDependencies": {
-    "@lefun/core": "*",
-    "@lefun/game": "*",
-    "@lefun/ui": "*",
+    "@lefun/core": "^2.3.0-alpha.0",
+    "@lefun/game": "^2.3.0-alpha.0",
+    "@lefun/ui": "^2.3.0-alpha.0",
     "react": ">=17.0.2",
     "react-dom": ">=17.0.2"
   }
