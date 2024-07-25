@@ -6,6 +6,11 @@ settings:
 
 overrides:
   vite: 5.2.12
+  '@lefun/core': file:/home/simon/packs/lefun-core-2.2.0.tgz
+  '@lefun/game': file:/home/simon/packs/lefun-game-2.2.0.tgz
+  '@lefun/ui': file:/home/simon/packs/lefun-ui-2.2.0.tgz
+  '@lefun/ui-testing': file:/home/simon/packs/lefun-ui-testing-2.2.0.tgz
+  '@lefun/dev-server': file:/home/simon/packs/lefun-dev-server-2.2.0.tgz
 
 importers:
 
@@ -22,11 +27,11 @@ importers:
         version: 4.17.21
     devDependencies:
       '@lefun/core':
-        specifier: 2.0.0
-        version: 2.0.0
+        specifier: file:/home/simon/packs/lefun-core-2.2.0.tgz
+        version: file:../../../../packs/lefun-core-2.2.0.tgz
       '@lefun/game':
-        specifier: 2.0.0
-        version: 2.0.0(@lefun/core@2.0.0)
+        specifier: file:/home/simon/packs/lefun-game-2.2.0.tgz
+        version: file:../../../../packs/lefun-game-2.2.0.tgz(@lefun/core@file:../../../../packs/lefun-core-2.2.0.tgz)
       '@rollup/plugin-commonjs':
         specifier: ^21.0.1
         version: 21.1.0(rollup@2.79.1)
@@ -86,20 +91,20 @@ importers:
         specifier: ^7.24.7
         version: 7.24.7(@babel/core@7.24.7)
       '@lefun/core':
-        specifier: 2.0.0
-        version: 2.0.0
+        specifier: file:/home/simon/packs/lefun-core-2.2.0.tgz
+        version: file:../../../../packs/lefun-core-2.2.0.tgz
       '@lefun/dev-server':
-        specifier: 2.0.0
-        version: 2.0.0(@lefun/core@2.0.0)(@lefun/game@2.0.0(@lefun/core@2.0.0))(@lefun/ui@2.0.0(@lefun/core@2.0.0)(@lefun/game@2.0.0(@lefun/core@2.0.0))(@types/react@18.3.3)(immer@10.1.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@lingui/core@4.11.2)(@lingui/react@4.11.2(react@18.3.1))(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: file:/home/simon/packs/lefun-dev-server-2.2.0.tgz
+        version: file:../../../../packs/lefun-dev-server-2.2.0.tgz(@lefun/core@file:../../../../packs/lefun-core-2.2.0.tgz)(@lefun/game@file:../../../../packs/lefun-game-2.2.0.tgz(@lefun/core@file:../../../../packs/lefun-core-2.2.0.tgz))(@lefun/ui@file:../../../../packs/lefun-ui-2.2.0.tgz(@lefun/core@file:../../../../packs/lefun-core-2.2.0.tgz)(@lefun/game@file:../../../../packs/lefun-game-2.2.0.tgz(@lefun/core@file:../../../../packs/lefun-core-2.2.0.tgz))(@types/react@18.3.3)(immer@10.1.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@lingui/core@4.11.2)(@lingui/react@4.11.2(react@18.3.1))(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@lefun/game':
-        specifier: 2.0.0
-        version: 2.0.0(@lefun/core@2.0.0)
+        specifier: file:/home/simon/packs/lefun-game-2.2.0.tgz
+        version: file:../../../../packs/lefun-game-2.2.0.tgz(@lefun/core@file:../../../../packs/lefun-core-2.2.0.tgz)
       '@lefun/ui':
-        specifier: 2.0.0
-        version: 2.0.0(@lefun/core@2.0.0)(@lefun/game@2.0.0(@lefun/core@2.0.0))(@types/react@18.3.3)(immer@10.1.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: file:/home/simon/packs/lefun-ui-2.2.0.tgz
+        version: file:../../../../packs/lefun-ui-2.2.0.tgz(@lefun/core@file:../../../../packs/lefun-core-2.2.0.tgz)(@lefun/game@file:../../../../packs/lefun-game-2.2.0.tgz(@lefun/core@file:../../../../packs/lefun-core-2.2.0.tgz))(@types/react@18.3.3)(immer@10.1.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@lefun/ui-testing':
-        specifier: 2.0.0
-        version: 2.0.0(@lefun/ui@2.0.0(@lefun/core@2.0.0)(@lefun/game@2.0.0(@lefun/core@2.0.0))(@types/react@18.3.3)(immer@10.1.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@lingui/core@4.11.2)(@lingui/react@4.11.2(react@18.3.1))(@testing-library/dom@10.1.0)(@types/react-dom@18.3.0)(@types/react@18.3.3)(immer@10.1.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: file:/home/simon/packs/lefun-ui-testing-2.2.0.tgz
+        version: file:../../../../packs/lefun-ui-testing-2.2.0.tgz(@lefun/ui@file:../../../../packs/lefun-ui-2.2.0.tgz(@lefun/core@file:../../../../packs/lefun-core-2.2.0.tgz)(@lefun/game@file:../../../../packs/lefun-game-2.2.0.tgz(@lefun/core@file:../../../../packs/lefun-core-2.2.0.tgz))(@types/react@18.3.3)(immer@10.1.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@lingui/core@4.11.2)(@lingui/react@4.11.2(react@18.3.1))(@testing-library/dom@10.1.0)(@types/react-dom@18.3.0)(@types/react@18.3.3)(immer@10.1.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@lingui/cli':
         specifier: ^4.11.1
         version: 4.11.1(typescript@5.4.5)
@@ -687,39 +692,44 @@ packages:
   '@jridgewell/trace-mapping@0.3.25':
     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
 
-  '@lefun/core@2.0.0':
-    resolution: {integrity: sha512-xjGSPYRDpmQHWnKPjBKuVRQR+ApMIzq3b2pNC24pr6fMP5IU4iG4tc53OAPS07LgchI+Bj1qiSQ4+dFbamuFtQ==}
+  '@lefun/core@file:../../../../packs/lefun-core-2.2.0.tgz':
+    resolution: {integrity: sha512-KXvUrJp8mKe3gYUYgR4dHK7Mc1RgLj8Jv+I3GjV4BzKtssRFnUrBgN+EaZBWMBiAwb+z8XTJh2/+TV5XkPZjRA==, tarball: file:../../../../packs/lefun-core-2.2.0.tgz}
+    version: 2.2.0
 
-  '@lefun/dev-server@2.0.0':
-    resolution: {integrity: sha512-VgP3vyH6LzwJIP/snH6uebjq88B6N/lHB5JECRz9QJBnggCGti2oxGNQSFijO/ixjndy4mdspnY/5PGTyH//lQ==}
+  '@lefun/dev-server@file:../../../../packs/lefun-dev-server-2.2.0.tgz':
+    resolution: {integrity: sha512-zBj998L3sPoaDes2ooYNGfhoN24nl323OnZO+Yj7XXOaP+T78jCnekQF6BJ5u42DZG6IznbrY+Eoi8nd38wv7Q==, tarball: file:../../../../packs/lefun-dev-server-2.2.0.tgz}
+    version: 2.2.0
     peerDependencies:
-      '@lefun/core': 2.0.0
-      '@lefun/game': 2.0.0
-      '@lefun/ui': 2.0.0
+      '@lefun/core': file:/home/simon/packs/lefun-core-2.2.0.tgz
+      '@lefun/game': file:/home/simon/packs/lefun-game-2.2.0.tgz
+      '@lefun/ui': file:/home/simon/packs/lefun-ui-2.2.0.tgz
       '@lingui/core': ^4.11.2
       '@lingui/react': ^4.11.2
       react: '>=17.0.2'
       react-dom: '>=17.0.2'
 
-  '@lefun/game@2.0.0':
-    resolution: {integrity: sha512-hnr4JMpb4kvpT3gKJLcqtRmXjj1FJUgxYkIuaaXbYvLTkFauaH/jbak6pbkh44wFvVlMExve0rLJ00cvJ8Y4MA==}
+  '@lefun/game@file:../../../../packs/lefun-game-2.2.0.tgz':
+    resolution: {integrity: sha512-5qJJkWQU8yDuK/x4VYNBZRRdh4YsSWB3M2Gy+uAMMFasWwIE9282fAg4bkN8F13nmaqSSlAX5hBCVScNVIg2nw==, tarball: file:../../../../packs/lefun-game-2.2.0.tgz}
+    version: 2.2.0
     peerDependencies:
-      '@lefun/core': 2.0.0
+      '@lefun/core': file:/home/simon/packs/lefun-core-2.2.0.tgz
 
-  '@lefun/ui-testing@2.0.0':
-    resolution: {integrity: sha512-tUA6kF3bVMeabhsJu3lIiS4blZgxpfQCgpcJcQ0xICDpMnq0K1NJhou/xI4B31j7ks1XDwev85gIDaHKrdmHjA==}
+  '@lefun/ui-testing@file:../../../../packs/lefun-ui-testing-2.2.0.tgz':
+    resolution: {integrity: sha512-a+gF3NkyjAQpS+gwo5JKIjtnLKldZPYrwC+GiuwUc9Z2feFddgClwxIcMG23zjLZpvMc+DrE4UYt8LYBiF4LPQ==, tarball: file:../../../../packs/lefun-ui-testing-2.2.0.tgz}
+    version: 2.2.0
     peerDependencies:
-      '@lefun/ui': 2.0.0
+      '@lefun/ui': file:/home/simon/packs/lefun-ui-2.2.0.tgz
       '@lingui/core': ^4.7.1
       '@lingui/react': ^4.7.1
       react: '>=17.0.2'
       react-dom: '>=17.0.2'
 
-  '@lefun/ui@2.0.0':
-    resolution: {integrity: sha512-xxODM85EcVlKLkG99MOpyMla9H2y4f594iqz2ZEPNzH4HHQfThq1aGYFhrhFdqxTBNOqbvaETDY5l7oocewajg==}
+  '@lefun/ui@file:../../../../packs/lefun-ui-2.2.0.tgz':
+    resolution: {integrity: sha512-PboNT4gM6JctbgBw916YGXGPVLTf02Yxio7UJdtV8VqnQ+Ir0kptHK5CFhgKAzQ35n8GBPo+ADBj0JDHqmZN2Q==, tarball: file:../../../../packs/lefun-ui-2.2.0.tgz}
+    version: 2.2.0
     peerDependencies:
-      '@lefun/core': 2.0.0
-      '@lefun/game': 2.0.0
+      '@lefun/core': file:/home/simon/packs/lefun-core-2.2.0.tgz
+      '@lefun/game': file:/home/simon/packs/lefun-game-2.2.0.tgz
       react: '>=17.0.2'
       react-dom: '>=17.0.2'
 
@@ -3592,13 +3602,13 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.4.15
 
-  '@lefun/core@2.0.0': {}
+  '@lefun/core@file:../../../../packs/lefun-core-2.2.0.tgz': {}
 
-  '@lefun/dev-server@2.0.0(@lefun/core@2.0.0)(@lefun/game@2.0.0(@lefun/core@2.0.0))(@lefun/ui@2.0.0(@lefun/core@2.0.0)(@lefun/game@2.0.0(@lefun/core@2.0.0))(@types/react@18.3.3)(immer@10.1.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@lingui/core@4.11.2)(@lingui/react@4.11.2(react@18.3.1))(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@lefun/dev-server@file:../../../../packs/lefun-dev-server-2.2.0.tgz(@lefun/core@file:../../../../packs/lefun-core-2.2.0.tgz)(@lefun/game@file:../../../../packs/lefun-game-2.2.0.tgz(@lefun/core@file:../../../../packs/lefun-core-2.2.0.tgz))(@lefun/ui@file:../../../../packs/lefun-ui-2.2.0.tgz(@lefun/core@file:../../../../packs/lefun-core-2.2.0.tgz)(@lefun/game@file:../../../../packs/lefun-game-2.2.0.tgz(@lefun/core@file:../../../../packs/lefun-core-2.2.0.tgz))(@types/react@18.3.3)(immer@10.1.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@lingui/core@4.11.2)(@lingui/react@4.11.2(react@18.3.1))(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@lefun/core': 2.0.0
-      '@lefun/game': 2.0.0(@lefun/core@2.0.0)
-      '@lefun/ui': 2.0.0(@lefun/core@2.0.0)(@lefun/game@2.0.0(@lefun/core@2.0.0))(@types/react@18.3.3)(immer@10.1.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@lefun/core': file:../../../../packs/lefun-core-2.2.0.tgz
+      '@lefun/game': file:../../../../packs/lefun-game-2.2.0.tgz(@lefun/core@file:../../../../packs/lefun-core-2.2.0.tgz)
+      '@lefun/ui': file:../../../../packs/lefun-ui-2.2.0.tgz(@lefun/core@file:../../../../packs/lefun-core-2.2.0.tgz)(@lefun/game@file:../../../../packs/lefun-game-2.2.0.tgz(@lefun/core@file:../../../../packs/lefun-core-2.2.0.tgz))(@types/react@18.3.3)(immer@10.1.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@lingui/core': 4.11.2
       '@lingui/react': 4.11.2(react@18.3.1)
       classnames: 2.5.1
@@ -3610,14 +3620,14 @@ snapshots:
     transitivePeerDependencies:
       - '@types/react'
 
-  '@lefun/game@2.0.0(@lefun/core@2.0.0)':
+  '@lefun/game@file:../../../../packs/lefun-game-2.2.0.tgz(@lefun/core@file:../../../../packs/lefun-core-2.2.0.tgz)':
     dependencies:
-      '@lefun/core': 2.0.0
+      '@lefun/core': file:../../../../packs/lefun-core-2.2.0.tgz
       lodash-es: 4.17.21
 
-  '@lefun/ui-testing@2.0.0(@lefun/ui@2.0.0(@lefun/core@2.0.0)(@lefun/game@2.0.0(@lefun/core@2.0.0))(@types/react@18.3.3)(immer@10.1.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@lingui/core@4.11.2)(@lingui/react@4.11.2(react@18.3.1))(@testing-library/dom@10.1.0)(@types/react-dom@18.3.0)(@types/react@18.3.3)(immer@10.1.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@lefun/ui-testing@file:../../../../packs/lefun-ui-testing-2.2.0.tgz(@lefun/ui@file:../../../../packs/lefun-ui-2.2.0.tgz(@lefun/core@file:../../../../packs/lefun-core-2.2.0.tgz)(@lefun/game@file:../../../../packs/lefun-game-2.2.0.tgz(@lefun/core@file:../../../../packs/lefun-core-2.2.0.tgz))(@types/react@18.3.3)(immer@10.1.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@lingui/core@4.11.2)(@lingui/react@4.11.2(react@18.3.1))(@testing-library/dom@10.1.0)(@types/react-dom@18.3.0)(@types/react@18.3.3)(immer@10.1.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@lefun/ui': 2.0.0(@lefun/core@2.0.0)(@lefun/game@2.0.0(@lefun/core@2.0.0))(@types/react@18.3.3)(immer@10.1.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@lefun/ui': file:../../../../packs/lefun-ui-2.2.0.tgz(@lefun/core@file:../../../../packs/lefun-core-2.2.0.tgz)(@lefun/game@file:../../../../packs/lefun-game-2.2.0.tgz(@lefun/core@file:../../../../packs/lefun-core-2.2.0.tgz))(@types/react@18.3.3)(immer@10.1.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@lingui/core': 4.11.2
       '@lingui/react': 4.11.2(react@18.3.1)
       '@testing-library/react': 16.0.0(@testing-library/dom@10.1.0)(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -3630,10 +3640,10 @@ snapshots:
       - '@types/react-dom'
       - immer
 
-  '@lefun/ui@2.0.0(@lefun/core@2.0.0)(@lefun/game@2.0.0(@lefun/core@2.0.0))(@types/react@18.3.3)(immer@10.1.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@lefun/ui@file:../../../../packs/lefun-ui-2.2.0.tgz(@lefun/core@file:../../../../packs/lefun-core-2.2.0.tgz)(@lefun/game@file:../../../../packs/lefun-game-2.2.0.tgz(@lefun/core@file:../../../../packs/lefun-core-2.2.0.tgz))(@types/react@18.3.3)(immer@10.1.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@lefun/core': 2.0.0
-      '@lefun/game': 2.0.0(@lefun/core@2.0.0)
+      '@lefun/core': file:../../../../packs/lefun-core-2.2.0.tgz
+      '@lefun/game': file:../../../../packs/lefun-game-2.2.0.tgz(@lefun/core@file:../../../../packs/lefun-core-2.2.0.tgz)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
       zustand: 4.5.4(@types/react@18.3.3)(immer@10.1.1)(react@18.3.1)

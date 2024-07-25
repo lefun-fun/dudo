@@ -192,10 +192,9 @@ const bet: PlayerMove<DudoGameState, BetPayload> = {
     board.bet = [numDice, diceValue];
     incrementCurrentPlayer(board);
   },
-  execute({ itsYourTurn, board }) {
-    itsYourTurn({
-      userIds: [board.playerOrder[board.currentPlayerIndex]],
-    });
+  execute({ turns, board }) {
+    turns.end("all");
+    turns.begin(board.playerOrder[board.currentPlayerIndex]);
   },
 };
 
@@ -209,7 +208,7 @@ const call: PlayerMove<DudoGameState> = {
       board.step === "play"
     );
   },
-  execute({ board, playerboards, itsYourTurn, endMatch }) {
+  execute({ board, playerboards, turns, endMatch, logPlayerStat }) {
     const [betQty, betValue] = board.bet!;
 
     const {
@@ -282,7 +281,8 @@ const call: PlayerMove<DudoGameState> = {
     });
 
     // The turn is over, all the people alive must roll.
-    itsYourTurn({ userIds: alivePlayers.map((p) => p.userId) });
+    turns.end("all");
+    turns.begin(alivePlayers.map((p) => p.userId));
 
     if (winner != null) {
       const scores: Record<UserId, number> = {};
@@ -290,7 +290,11 @@ const call: PlayerMove<DudoGameState> = {
       board.deathList.forEach((userId, i) => {
         scores[userId] = board.deathList.length - i;
       });
-      endMatch({ scores });
+
+      for (const [userId, score] of Object.entries(scores)) {
+        logPlayerStat(userId, "score", score);
+      }
+      endMatch();
     }
   },
 };
@@ -304,7 +308,7 @@ const roll: PlayerMove<DudoGameState> = {
     playerboard.isRolling = true;
     board.players[userId].hasRolled = true;
   },
-  execute({ board, playerboards, userId, random, itsYourTurn }) {
+  execute({ board, playerboards, userId, random, turns }) {
     const { numDice } = playerboards[userId];
 
     // Roll the dice for the player that is ready.
@@ -355,13 +359,10 @@ const roll: PlayerMove<DudoGameState> = {
       board.bet = undefined;
 
       // `everyoneHasRolled` has changed the current player
-      itsYourTurn({
-        userIds: [board.playerOrder[board.currentPlayerIndex]],
-      });
+      turns.end("all");
+      turns.begin(board.playerOrder[board.currentPlayerIndex]);
     } else {
-      itsYourTurn({
-        overUserIds: [userId],
-      });
+      turns.end(userId);
     }
   },
 };
@@ -439,7 +440,7 @@ export const game = {
   },
   gameSettings,
   gamePlayerSettings,
-  playerScoreType: "rank",
+  playerStats: [{ key: "rank", type: "rank", primary: true }],
   minPlayers: 2,
   maxPlayers: 7,
 } satisfies Game<DudoGameState>;

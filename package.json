@@ -3,7 +3,12 @@
   "private": true,
   "pnpm": {
     "overrides": {
-      "vite": "5.2.12"
+      "vite": "5.2.12",
+      "@lefun/core": "file:/home/simon/packs/lefun-core-2.2.0.tgz",
+      "@lefun/game": "file:/home/simon/packs/lefun-game-2.2.0.tgz",
+      "@lefun/ui": "file:/home/simon/packs/lefun-ui-2.2.0.tgz",
+      "@lefun/ui-testing": "file:/home/simon/packs/lefun-ui-testing-2.2.0.tgz",
+      "@lefun/dev-server": "file:/home/simon/packs/lefun-dev-server-2.2.0.tgz"
     }
   },
   "packageManager": "pnpm@9.4.0+sha256.b6fd0bfda555e7e584ad7e56b30c68b01d5a04f9ee93989f4b93ca8473c49c74",
