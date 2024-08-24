@@ -64,7 +64,7 @@ const gameSettings: GameSettings = [
     options: [
       { value: "3" },
       { value: "4" },
-      { value: "5", default: true },
+      { value: "5", isDefault: true },
       { value: "6" },
     ],
   },
@@ -367,8 +367,9 @@ const roll: PlayerMove<DudoGameState, null> = {
   },
 };
 
-const gamePlayerSettings: GamePlayerSettings = {
-  color: {
+const gamePlayerSettings: GamePlayerSettings = [
+  {
+    key: "color",
     label: "Color",
     options: [
       // NOTE those colors are duplicated in the game definition
@@ -385,7 +386,7 @@ const gamePlayerSettings: GamePlayerSettings = {
     type: "color",
     exclusive: true,
   },
-};
+];
 
 //
 // Game object
