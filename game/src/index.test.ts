@@ -482,6 +482,8 @@ test("its your turn", () => {
 
   // The match is over!
   checkItsTheirTurn([]);
+
+  expect(match.matchHasEnded).toBe(true);
 });
 
 test.each([[2], [3], [4]])("ranks for everyone %s", (numPlayers: number) => {
