@@ -28,4 +28,4 @@ watch:
 
 .PHONY: dev
 dev:
-	cd ui && pnpm run vite:dev
+	cd ui && pnpm run dev
