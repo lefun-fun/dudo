@@ -15,7 +15,7 @@ export default defineConfig({
     environment: "jsdom",
   },
   resolve: {
-    dedupe: ["react", "react-dom"],
+    dedupe: ["react", "react-dom", "@lingui/react"],
     mainFields: ["module", "main"],
   },
 });

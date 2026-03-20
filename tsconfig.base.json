@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "strict": true,
+    "noEmitOnError": true,
     "target": "esnext",
     "module": "esnext",
     "lib": ["dom", "esnext"],

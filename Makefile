@@ -10,17 +10,17 @@ build:
 test:
 	pnpm run -r test
 
-.PHONY: format
-format:
+.PHONY: fix
+fix:
 	pnpm prettier ui game --write
 	cd game && pnpm eslint . --fix
 	cd ui && pnpm eslint . --fix
 
-.PHONY: check-format
-check-format:
+.PHONY: check
+check:
 	pnpm prettier ui game --check
-	cd game && pnpm eslint . --quiet
-	cd ui && pnpm eslint . --quiet
+	cd game && pnpm eslint . --quiet && pnpm tsc --noEmit --skipLibCheck
+	cd ui && pnpm eslint . --quiet && pnpm tsc --noEmit --skipLibCheck
 
 .PHONY: watch
 watch:
@@ -29,3 +29,6 @@ watch:
 .PHONY: dev
 dev:
 	cd ui && pnpm run dev
+
+.PHONY: all
+all: fix check test

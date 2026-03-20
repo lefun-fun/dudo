@@ -399,9 +399,8 @@ test("its your turn", () => {
     }
 
     match.meta.players.allIds.forEach((userId) => {
-      expect(match.meta.players.byId[userId].itsYourTurn).toBe(
-        (userIds as UserId[]).includes(userId),
-      );
+      const shouldHaveTurn = userIds.includes(userId);
+      expect(match.hasTurn(userId)).toBe(shouldHaveTurn);
     });
   };
 

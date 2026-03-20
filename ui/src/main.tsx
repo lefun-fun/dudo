@@ -7,6 +7,7 @@ import { messages as en } from "./locales/en/messages";
 import { messages as fr } from "./locales/fr/messages";
 
 render({
+  gameId: "dudo",
   board: async () => {
     // @ts-expect-error the import is there even if TS does not see it!
     await import("./index.css");
@@ -20,6 +21,5 @@ render({
     return <Rules />;
   },
   game,
-  matchSettings: { startNumDice: "3" },
   messages: { en, fr },
 });

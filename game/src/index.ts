@@ -193,7 +193,7 @@ const bet: PlayerMove<DudoGameState, BetPayload> = {
     incrementCurrentPlayer(board);
   },
   execute({ turns, board }) {
-    turns.end("all");
+    turns.endAll();
     turns.begin(board.playerOrder[board.currentPlayerIndex]);
   },
 };
@@ -281,7 +281,7 @@ const call: PlayerMove<DudoGameState, null> = {
     });
 
     // The turn is over, all the people alive must roll.
-    turns.end("all");
+    turns.endAll();
     turns.begin(alivePlayers.map((p) => p.userId));
 
     if (winner != null) {
@@ -312,7 +312,7 @@ const roll: PlayerMove<DudoGameState, null> = {
     const { numDice } = playerboards[userId];
 
     // Roll the dice for the player that is ready.
-    const diceValues = random.d6(numDice);
+    const diceValues = random.d6({ size: numDice });
     playerboards[userId].diceValues = diceValues;
     playerboards[userId].isRolling = false;
 
@@ -359,7 +359,7 @@ const roll: PlayerMove<DudoGameState, null> = {
       board.bet = undefined;
 
       // `everyoneHasRolled` has changed the current player
-      turns.end("all");
+      turns.endAll();
       turns.begin(board.playerOrder[board.currentPlayerIndex]);
     } else {
       turns.end(userId);
@@ -413,7 +413,7 @@ export const game = {
 
       playerboards[userId] = {
         numDice: startNumDice,
-        diceValues: random.d6(startNumDice),
+        diceValues: random.d6({ size: startNumDice }),
         isRolling: false,
       };
     });

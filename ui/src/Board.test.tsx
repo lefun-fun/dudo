@@ -1,23 +1,24 @@
 import { expect, test } from "vitest";
 
 import type { UserId } from "@lefun/core";
-import { MatchTester as MatchTesterOrig } from "@lefun/game";
-import { render } from "@lefun/ui-testing";
-import { DudoGame, DudoGameState, game } from "dudo-game";
+import { MatchTester as _MatchTester } from "@lefun/game";
+import { getUIStateFromMatchTester, render } from "@lefun/ui-testing";
+import { DudoGame as G, DudoGameState as GS, game } from "dudo-game";
 
 import Board, { getDefaultBet, getLowestQty, getLowestValue } from "./Board";
 
-class MatchTester extends MatchTesterOrig<DudoGameState, DudoGame> {}
+class MatchTester extends _MatchTester<GS, G> {}
 
 // eslint-disable-next-line  @typescript-eslint/no-explicit-any
 let utils: any;
-const renderForPlayer = (match: MatchTester, userId: UserId) => {
+const renderForPlayer = (matchTester: MatchTester, userId: UserId) => {
   // For some reason it's a pain to do multiple renders in the same test. This makes it
   // possible.
   if (utils) {
     utils.unmount();
   }
-  utils = render(Board, match.getState(userId));
+  const state = getUIStateFromMatchTester({ matchTester, userId });
+  utils = render(Board, state);
 };
 
 test("the info in the header", () => {
