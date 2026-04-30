@@ -1,6 +1,7 @@
 import "tippy.js/dist/tippy.css";
 
-import { msg, Trans } from "@lingui/macro";
+import { msg } from "@lingui/core/macro";
+import { Trans } from "@lingui/react/macro";
 import { useLingui } from "@lingui/react";
 import { animated, config as springConfig, useSpring } from "@react-spring/web";
 import Tippy from "@tippyjs/react";
